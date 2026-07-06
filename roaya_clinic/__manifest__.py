@@ -69,7 +69,7 @@
 
     'assets': {
     'web.assets_frontend': [
-        'smart_clinic/static/src/js/portal.js',
+        'roaya_clinic/static/src/js/portal.js',
     ],
 },
 }
