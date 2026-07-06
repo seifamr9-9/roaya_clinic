@@ -44,7 +44,7 @@ class LeadRejectWizard(models.TransientModel):
         # 2. Send email BEFORE changing stage
         if self.send_email:
             template = self.env.ref(
-                "smart_clinic.email_template_appointment_cancellation",
+                "roaya_clinic.email_template_appointment_cancellation",
                 raise_if_not_found=False,
             )
             if template:

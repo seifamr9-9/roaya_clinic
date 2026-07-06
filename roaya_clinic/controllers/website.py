@@ -15,7 +15,7 @@ class SmartClinicWebsite(http.Controller):
             'appointment_count': request.env['clinic.appointment'].sudo().search_count([]),
             'specialty_count': request.env['clinic.specialty'].sudo().search_count([]),
         }
-        return request.render('smart_clinic.home_page', values)
+        return request.render('roaya_clinic.home_page', values)
 
     # Doctors page
     @http.route('/doctors', type='http', auth='public', website=True)
@@ -23,7 +23,7 @@ class SmartClinicWebsite(http.Controller):
         domain = [('active', '=', True)]
         if specialty_id: domain.append(('specialty_id', '=', int(specialty_id)))
         if search: domain.append(('name', 'ilike', search))
-        return request.render('smart_clinic.doctors_page', {
+        return request.render('roaya_clinic.doctors_page', {
             'doctors': request.env['clinic.doctor'].sudo().search(domain),
             'specialties': request.env['clinic.specialty'].sudo().search([('active', '=', True)]),
             'selected_specialty': int(specialty_id) if specialty_id else False,
@@ -33,14 +33,14 @@ class SmartClinicWebsite(http.Controller):
     # Services page
     @http.route('/services', type='http', auth='public', website=True)
     def services(self, **kw):
-        return request.render('smart_clinic.services_page', {
+        return request.render('roaya_clinic.services_page', {
             'specialties': request.env['clinic.specialty'].sudo().search([('active', '=', True)])
         })
 
     # About page
     @http.route('/about', type='http', auth='public', website=True)
     def about(self, **kw):
-        return request.render('smart_clinic.about_page', {
+        return request.render('roaya_clinic.about_page', {
             'doctor_count': request.env['clinic.doctor'].sudo().search_count([]),
             'patient_count': request.env['clinic.patient'].sudo().search_count([]),
             'appointment_count': request.env['clinic.appointment'].sudo().search_count([]),
@@ -51,7 +51,7 @@ class SmartClinicWebsite(http.Controller):
     @http.route('/appointment', type='http', auth='public', website=True)
     def website_appointment(self, doctor_id=None, **kw):
         patient = request.env['clinic.patient'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
-        return request.render('smart_clinic.page_appointment', {
+        return request.render('roaya_clinic.page_appointment', {
             'doctors': request.env['clinic.doctor'].sudo().search([('active', '=', True)]),
             'specialties': request.env['clinic.specialty'].sudo().search([('active', '=', True)]),
             'doctor_id': int(doctor_id) if doctor_id else False,
@@ -98,7 +98,7 @@ class SmartClinicWebsite(http.Controller):
     # Success page
     @http.route('/appointment/success/<int:appointment_id>', type='http', auth='public', website=True)
     def appointment_success(self, appointment_id):
-        return request.render('smart_clinic.page_appointment_success', {
+        return request.render('roaya_clinic.page_appointment_success', {
             "appointment": request.env['clinic.appointment'].sudo().browse(appointment_id)
         })
 

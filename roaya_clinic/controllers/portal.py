@@ -8,7 +8,7 @@ class SmartClinicPortal(CustomerPortal):
     def portal_dashboard(self, **kw):
         patient = request.env['clinic.patient'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
         appts = request.env['clinic.appointment'].sudo().search([('patient_id', '=', patient.id)])
-        return request.render('smart_clinic.portal_dashboard', {
+        return request.render('roaya_clinic.portal_dashboard', {
             'patient': patient,
             'appointments_count': len(appts),
             'upcoming_count': len(appts.filtered(lambda a: a.state == 'confirmed')),
@@ -18,7 +18,7 @@ class SmartClinicPortal(CustomerPortal):
     @http.route(['/my/appointments'], type='http', auth='user', website=True)
     def portal_appointments(self, **kw):
         patient = request.env['clinic.patient'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
-        return request.render('smart_clinic.portal_appointments', {
+        return request.render('roaya_clinic.portal_appointments', {
             'appointments': request.env['clinic.appointment'].sudo().search([('patient_id', '=', patient.id)], order='date desc')
         })
 
@@ -27,7 +27,7 @@ class SmartClinicPortal(CustomerPortal):
         patient = request.env['clinic.patient'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
         appt = request.env['clinic.appointment'].sudo().search([('id', '=', appointment_id), ('patient_id', '=', patient.id)], limit=1)
         if not appt: return request.redirect('/my/appointments')
-        return request.render('smart_clinic.portal_appointment_details', {'appointment': appt})
+        return request.render('roaya_clinic.portal_appointment_details', {'appointment': appt})
 
     @http.route(['/my/appointments/<int:appointment_id>/cancel'], type='http', auth='user', website=True)
     def portal_cancel_appointment(self, appointment_id, **kw):

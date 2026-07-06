@@ -159,7 +159,7 @@ class ClinicAppointment(models.Model):
             ]
         )
 
-        template = self.env.ref("smart_clinic.email_template_appointment_reminder")
+        template = self.env.ref("roaya_clinic.email_template_appointment_reminder")
 
         for appointment in appointments:
             template.send_mail(appointment.id, force_send=False)
@@ -207,7 +207,7 @@ class ClinicAppointment(models.Model):
             record.state = "confirmed"
 
     def action_print_appointment_confirmation(self):
-        return self.env.ref("smart_clinic.action_report_appointment").report_action(
+        return self.env.ref("roaya_clinic.action_report_appointment").report_action(
             self
         )
 
@@ -246,7 +246,7 @@ class ClinicAppointment(models.Model):
             rec.state = "no_show"
 
     def unlink(self):
-        is_manager = self.env.user.has_group("smart_clinic.group_smart_clinic_manager")
+        is_manager = self.env.user.has_group("roaya_clinic.group_smart_clinic_manager")
 
         for rec in self:
             related_records = []
@@ -270,7 +270,7 @@ class ClinicAppointment(models.Model):
         self.ensure_one()
         if not self.prescription_ids:
             raise ValidationError("No prescriptions found for this appointment.")
-        return self.env.ref("smart_clinic.action_report_prescription").report_action(
+        return self.env.ref("roaya_clinic.action_report_prescription").report_action(
             self.prescription_ids
         )
         
@@ -278,7 +278,7 @@ class ClinicAppointment(models.Model):
         self.ensure_one()
 
         action = self.env.ref(
-            "smart_clinic.action_clinic_prescription"
+            "roaya_clinic.action_clinic_prescription"
         ).read()[0]
 
         action["domain"] = [
@@ -325,7 +325,7 @@ class ClinicAppointment(models.Model):
         self.ensure_one()
         if not self.lab_order_ids:
             raise ValidationError("No lab orders found for this appointment.")
-        return self.env.ref("smart_clinic.action_report_lab_order").report_action(
+        return self.env.ref("roaya_clinic.action_report_lab_order").report_action(
             self.lab_order_ids
     )
 
@@ -333,7 +333,7 @@ class ClinicAppointment(models.Model):
         self.ensure_one()
         if not self.charge_ids:
             raise ValidationError("No charges found for this appointment.")
-        return self.env.ref("smart_clinic.action_report_charge").report_action(
+        return self.env.ref("roaya_clinic.action_report_charge").report_action(
             self.charge_ids
     )
 

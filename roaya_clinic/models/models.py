@@ -4,8 +4,8 @@
 
 
 # class smart_clinic(models.Model):
-#     _name = 'smart_clinic.smart_clinic'
-#     _description = 'smart_clinic.smart_clinic'
+#     _name = 'roaya_clinic.smart_clinic'
+#     _description = 'roaya_clinic.smart_clinic'
 
 #     name = fields.Char()
 #     value = fields.Integer()

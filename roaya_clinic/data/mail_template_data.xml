@@ -4,7 +4,7 @@
 
         <record id="email_template_appointment_reminder" model="mail.template">
             <field name="name">Patient Appointment Reminder</field>
-            <field name="model_id" ref="smart_clinic.model_clinic_appointment" />
+            <field name="model_id" ref="roaya_clinic.model_clinic_appointment"/>
             <field name="subject">
                 Reminder: Appointment with {{ object.doctor_id.name }} on {{ object.date }}
             </field>

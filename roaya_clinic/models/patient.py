@@ -86,7 +86,7 @@ class ClinicPatient(models.Model):
                 record.age = 0
 
     def action_print_patient_medical_summary(self):
-        return self.env.ref("smart_clinic.action_report_patient_medical").report_action(
+        return self.env.ref("roaya_clinic.action_report_patient_medical").report_action(
             self
         )
     

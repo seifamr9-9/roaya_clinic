@@ -202,7 +202,7 @@ class CrmLead(models.Model):
             subtype_xmlid="mail.mt_note",
         )
         template = self.env.ref(
-            "smart_clinic.email_template_appointment_confirmation",
+            "roaya_clinic.email_template_appointment_confirmation",
             raise_if_not_found=False,
         )
         if template:

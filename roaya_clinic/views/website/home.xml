@@ -8,7 +8,7 @@
 
 <div id="wrap" class="oe_structure">
 
-<t t-call="smart_clinic.hero_section"/>
+<t t-call="roaya_clinic.hero_section"/>
 
 </div>
 

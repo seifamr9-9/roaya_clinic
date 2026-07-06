@@ -16,7 +16,7 @@
                     class="btn-primary" />
 
                 <button
-                    name="%(smart_clinic.action_lead_reject_wizard)d"
+                    name="%(roaya_clinic.action_lead_reject_wizard)d"
                     string="Cancell"
                     type="action"
                     class="btn-danger"

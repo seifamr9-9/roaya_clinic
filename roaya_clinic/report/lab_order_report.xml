@@ -6,8 +6,8 @@
         <field name="name">Lab Order</field>
         <field name="model">clinic.lab_order</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">smart_clinic.report_lab_order</field>
-        <field name="report_file">smart_clinic.report_lab_order</field>
+        <field name="report_name">roaya_clinic.report_lab_order</field>
+        <field name="report_file">roaya_clinic.report_lab_order</field>
         <field name="print_report_name">'Lab Order - %s' % (object.patient_id.name)</field>
         <field name="binding_model_id" ref="model_clinic_lab_order"/>
         <field name="binding_type">report</field>

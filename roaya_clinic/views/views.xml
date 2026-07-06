@@ -2,9 +2,9 @@
   <data>
     <!-- explicit list view definition -->
 <!--
-    <record model="ir.ui.view" id="smart_clinic.list">
+    <record model="ir.ui.view" id="roaya_clinic.list">
       <field name="name">smart_clinic list</field>
-      <field name="model">smart_clinic.smart_clinic</field>
+      <field name="model">roaya_clinic.smart_clinic</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
@@ -17,16 +17,16 @@
 
     <!-- actions opening views on models -->
 <!--
-    <record model="ir.actions.act_window" id="smart_clinic.action_window">
+    <record model="ir.actions.act_window" id="roaya_clinic.action_window">
       <field name="name">smart_clinic window</field>
-      <field name="res_model">smart_clinic.smart_clinic</field>
+      <field name="res_model">roaya_clinic.smart_clinic</field>
       <field name="view_mode">tree,form</field>
     </record>
 -->
 
     <!-- server action to the one above -->
 <!--
-    <record model="ir.actions.server" id="smart_clinic.action_server">
+    <record model="ir.actions.server" id="roaya_clinic.action_server">
       <field name="name">smart_clinic server</field>
       <field name="model_id" ref="model_smart_clinic_smart_clinic"/>
       <field name="state">code</field>
@@ -42,19 +42,19 @@
 
     <!-- Top menu item -->
 <!--
-    <menuitem name="smart_clinic" id="smart_clinic.menu_root"/>
+    <menuitem name="smart_clinic" id="roaya_clinic.menu_root"/>
 -->
     <!-- menu categories -->
 <!--
-    <menuitem name="Menu 1" id="smart_clinic.menu_1" parent="smart_clinic.menu_root"/>
-    <menuitem name="Menu 2" id="smart_clinic.menu_2" parent="smart_clinic.menu_root"/>
+    <menuitem name="Menu 1" id="roaya_clinic.menu_1" parent="roaya_clinic.menu_root"/>
+    <menuitem name="Menu 2" id="roaya_clinic.menu_2" parent="roaya_clinic.menu_root"/>
 -->
     <!-- actions -->
 <!--
-    <menuitem name="List" id="smart_clinic.menu_1_list" parent="smart_clinic.menu_1"
-              action="smart_clinic.action_window"/>
-    <menuitem name="Server to list" id="smart_clinic" parent="smart_clinic.menu_2"
-              action="smart_clinic.action_server"/>
+    <menuitem name="List" id="roaya_clinic.menu_1_list" parent="roaya_clinic.menu_1"
+              action="roaya_clinic.action_window"/>
+    <menuitem name="Server to list" id="smart_clinic" parent="roaya_clinic.menu_2"
+              action="roaya_clinic.action_server"/>
 -->
   </data>
 </odoo>

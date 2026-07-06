@@ -128,4 +128,4 @@ class ClinicCharge(models.Model):
 
     def action_print_charge(self):
         self.ensure_one()
-        return self.env.ref("smart_clinic.action_report_charge").report_action(self)
+        return self.env.ref("roaya_clinic.action_report_charge").report_action(self)

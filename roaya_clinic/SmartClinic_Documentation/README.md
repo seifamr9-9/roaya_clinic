@@ -268,7 +268,7 @@ The project follows the MVC (Model–View–Controller) design pattern used by O
 Clone the repository
 
 ```bash
-git clone https://github.com/your-repository/smart_clinic.git
+git clone https://github.com/your-repository/roaya_clinic.git
 ```
 
 Move the module into the custom addons directory.

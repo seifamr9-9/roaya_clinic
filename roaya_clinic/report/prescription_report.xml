@@ -6,8 +6,8 @@
         <field name="name">Prescription</field>
         <field name="model">clinic.prescription</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">smart_clinic.report_prescription</field>
-        <field name="report_file">smart_clinic.report_prescription</field>
+        <field name="report_name">roaya_clinic.report_prescription</field>
+        <field name="report_file">roaya_clinic.report_prescription</field>
         <field name="print_report_name">'Prescription - %s' % (object.patient_id.name)</field>
         <field name="binding_model_id" ref="model_clinic_prescription"/>
         <field name="binding_type">report</field>
