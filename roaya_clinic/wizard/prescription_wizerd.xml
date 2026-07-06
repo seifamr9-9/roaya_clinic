@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_prescription_wizard_form" model="ir.ui.view">
+            <field name="name">clinic.prescription.wizard.form</field>
+            <field name="model">clinic.prescription.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Prescription">
+                    <sheet>
+                        <group>
+                            <group string="Patient Info">
+                                <field name="patient_id" readonly="1"/>
+                                <field name="doctor_id" readonly="1"/>
+                                <field name="appointment_id" invisible="1"/>
+                            </group>
+                            <group string="Medication Details">
+                                <field name="medication_name"/>
+                                <field name="dosage"/>
+                                <field name="frequency"/>
+                                <field name="duration_days"/>
+                            </group>
+                        </group>
+                        <group string="Doctor Notes">
+                            <field name="notes" placeholder="Write medical notes here..."/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_create_prescription"
+                                type="object"
+                                string="Save Prescription"
+                                class="btn-primary"/>
+                        <button string="Cancel"
+                                special="cancel"
+                                class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="action_prescription_wizard"
+                model="ir.actions.act_window">
+            <field name="name">Prescription</field>
+            <field name="res_model">clinic.prescription.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

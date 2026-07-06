@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================= TREE ================= -->
+    <record id="view_clinic_appointment_tree" model="ir.ui.view">
+        <field name="name">clinic.appointment.tree</field>
+        <field name="model">clinic.appointment</field>
+        <field name="arch" type="xml">
+            <tree string="Appointments" create="0"
+                  decoration-warning="state == 'draft'"
+                  decoration-info="state == 'confirmed'"
+                  decoration-primary="state == 'checked_in'"
+                  decoration-success="state == 'done'"
+                  decoration-danger="state == 'cancelled'"
+                  decoration-muted="state == 'no_show'" 
+                  default_order="name desc"
+                  >
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="specialty_id" widget="badge"/>
+                <field name="date"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="state" widget="badge"
+                    decoration-warning="state == 'draft'"
+                    decoration-info="state == 'confirmed'"
+                    decoration-primary="state == 'checked_in'"
+                    decoration-success="state == 'done'"
+                    decoration-muted="state == 'no_show'"
+                    decoration-danger="state == 'cancelled'"  
+                />
+                <field name="payment_status" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ================= FORM ================= -->
+    <record id="view_clinic_appointment_form" model="ir.ui.view">
+        <field name="name">clinic.appointment.form</field>
+        <field name="model">clinic.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment" create="0">
+                <header>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,confirmed,checked_in,in_progress,done,cancelled,no_show"/>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start_consultation" type="object"
+                            string="Start" class="btn-primary"
+                            invisible="state != 'checked_in'"/>
+                    <button name="action_done" type="object" string="Done"
+                            class="btn-success"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            class="btn-danger"
+                            invisible="state in ('done','cancelled')"/>
+                    <button name="action_no_show" type="object" string="No Show"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_print_appointment_confirmation"
+                            type="object" string="Print"
+                            class="btn-secondary"/>
+                    <button name="action_print_prescriptions" type="object" string="Print Prescriptions" class="btn-primary" invisible="not prescription_ids"/>
+                    <button name="action_print_lab_orders" type="object" string="Print Lab Orders" class="btn-primary" invisible="not lab_order_ids"/>
+                    <button name="action_print_charges" type="object" string="Print Charges" class="btn-primary" invisible="not charge_ids"/>
+                    <button name="action_check_in"
+                            type="object"
+                            string="Check In"
+                            class="btn-primary"
+                            invisible="state != 'confirmed'"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_charges"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-money">
+                            <field name="charge_count"
+                                   widget="statinfo"
+                                   string="Charges"/>
+                        </button>
+                        <button name="action_view_lab_orders" type="object" class="oe_stat_button" icon="fa-flask">
+                            <field name="lab_order_count" string="Lab Orders" widget="statinfo"/>
+                        </button>
+                        <button name="action_view_prescriptions"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-medkit">
+                            <field name="prescription_count"
+                                   string="Prescriptions"
+                                   widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group string="Basic Information" col="2">
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="specialty_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="consultation_fee" widget="monetary" readonly="1"/>
+                            <field name="payment_status" widget="badge" readonly="1"
+                                   decoration-success="payment_status == 'current'"
+                                   decoration-warning="payment_status == 'upcoming'"
+                                   decoration-danger="payment_status == 'overdue'"/>
+                            <field name="is_today" readonly="1"/>
+                            <field name="crm_lead_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Schedule and Timing">
+                        <group>
+                            <field name="date"/>
+                            <field name="slot_id"/>
+                            <field name="start_time" readonly="1"/>
+                            <field name="end_time" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="duration_minutes" widget="float_time" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Medical Details">
+                        <field name="reason" placeholder="Reason for consultation..."/>
+                        <field name="notes" placeholder="Clinical notes..."/>
+                    </group>
+                    <notebook>
+                        <page string="Charges">
+                            <field name="charge_ids">
+                                <tree editable="bottom"
+                                      decoration-success="state == 'paid'"
+                                      decoration-warning="state == 'pending'"
+                                      decoration-danger="state == 'cancelled'">
+                                    <field name="name"/>
+                                    <field name="line_type" widget="badge"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="late_fee" widget="monetary"/>
+                                    <field name="total_amount" widget="monetary" readonly="1"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Prescriptions">
+                            <field name="prescription_ids" nolabel="1">
+                                <tree create="0" delete="0">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="medication_name"/>
+                                    <field name="dosage"/>
+                                    <field name="frequency" widget="badge"/>
+                                    <field name="duration_days"/>
+                                </tree>
+                                <form string="Prescription">
+                                    <sheet>
+                                        <group col="2">
+                                            <group>
+                                                <field name="date" readonly="1"/>
+                                                <field name="patient_id" readonly="1"/>
+                                                <field name="doctor_id" readonly="1"/>
+                                                <field name="appointment_id" readonly="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="medication_name"/>
+                                                <field name="dosage"/>
+                                                <field name="frequency" widget="badge"/>
+                                                <field name="duration_days"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="notes"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Lab Orders">
+                            <field name="lab_order_ids">
+                                <tree decoration-warning="state == 'ordered'"
+                                      decoration-info="state == 'in_progress'"
+                                      decoration-success="state == 'done'">
+                                    <field name="name"/>
+                                    <field name="test_type" widget="badge"/>
+                                    <field name="urgency" widget="badge"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="ordered_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- ================= SEARCH VIEW ================= -->
+    <record id="view_clinic_appointment_search" model="ir.ui.view">
+        <field name="name">clinic.appointment.search</field>
+        <field name="model">clinic.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Appointments">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="date"/>
+                <filter string="Today"
+                        name="today"
+                        domain="[('date','=',context_today())]"/>
+                <filter string="Draft"
+                        name="draft"
+                        domain="[('state','=','draft')]"/>
+                <filter string="Confirmed"
+                        name="confirmed"
+                        domain="[('state','=','confirmed')]"/>
+                <filter string="In Progress"
+                        name="in_progress"
+                        domain="[('state','=','in_progress')]"/>
+                <filter string="Done"
+                        name="done"
+                        domain="[('state','=','done')]"/>
+                <filter string="Cancelled"
+                        name="cancelled"
+                        domain="[('state','=','cancelled')]"/>
+                <filter string="No Show"
+                        name="no_show"
+                        domain="[('state','=','no_show')]"/>
+                <separator/>
+                <filter string="Current Payment"
+                        name="current"
+                        domain="[('payment_status','=','current')]"/>
+                <filter string="Upcoming"
+                        name="upcoming"
+                        domain="[('payment_status','=','upcoming')]"/>
+                <filter string="Overdue"
+                        name="overdue"
+                        domain="[('payment_status','=','overdue')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Doctor"
+                            name="group_doctor"
+                            context="{'group_by':'doctor_id'}"/>
+                    <filter string="Patient"
+                            name="group_patient"
+                            context="{'group_by':'patient_id'}"/>
+                    <filter string="Date"
+                            name="group_date"
+                            context="{'group_by':'date'}"/>
+                    <filter string="State"
+                            name="group_state"
+                            context="{'group_by':'state'}"/>
+                    <filter string="Payment Status"
+                            name="group_payment"
+                            context="{'group_by':'payment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- ================= ACTION ================= -->
+    <record id="action_clinic_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="res_model">clinic.appointment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_clinic_appointment_search"/>
+    </record>
+    <!-- ================= REPORT ================= -->
+    <record id="action_report_appointment" model="ir.actions.report">
+        <field name="name">Appointment Confirmation Slip</field>
+        <field name="model">clinic.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_clinic.report_appointment</field>
+        <field name="report_file">smart_clinic.report_appointment</field>
+        <field name="print_report_name">'Appointment - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_clinic_appointment"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

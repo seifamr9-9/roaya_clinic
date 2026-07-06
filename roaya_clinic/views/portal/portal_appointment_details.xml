@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template
+        id="portal_appointment_details"
+        name="Appointment Details">
+
+        <t t-call="portal.portal_layout">
+
+            <div class="container py-5">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h2>
+
+                        Appointment:
+                        <span t-esc="appointment.name"/>
+
+                    </h2>
+
+                    <a
+                        href="/my/appointments"
+                        class="btn btn-secondary">
+
+                        Back
+
+                    </a>
+
+                </div>
+
+                <div class="card mt-4">
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <p>
+
+                                    <strong>Doctor:</strong>
+
+                                    <span
+                                        t-esc="appointment.doctor_id.name"/>
+
+                                </p>
+
+                                <p>
+
+                                    <strong>Specialty:</strong>
+
+                                    <span
+                                        t-esc="appointment.specialty_id.name"/>
+
+                                </p>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <p>
+
+                                    <strong>Date:</strong>
+
+                                    <span
+                                        t-esc="appointment.date"/>
+
+                                </p>
+
+                                <p>
+
+                                    <strong>Status:</strong>
+
+                                    <span
+                                        t-if="appointment.state == 'confirmed'"
+                                        class="badge bg-success">
+
+                                        Confirmed
+
+                                    </span>
+
+                                    <span
+                                        t-elif="appointment.state == 'draft'"
+                                        class="badge bg-secondary">
+
+                                        Draft
+
+                                    </span>
+
+                                    <span
+                                        t-elif="appointment.state == 'done'"
+                                        class="badge bg-primary">
+
+                                        Completed
+
+                                    </span>
+
+                                    <span
+                                        t-elif="appointment.state == 'cancelled'"
+                                        class="badge bg-danger">
+
+                                        Cancelled
+
+                                    </span>
+
+                                    <span
+                                        t-else=""
+                                        class="badge bg-warning text-dark">
+
+                                        <t t-esc="appointment.state"/>
+
+                                    </span>
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <hr/>
+
+                        <p>
+
+                            <strong>Start Time:</strong>
+
+                            <span
+                                t-esc="appointment.start_time"/>
+
+                        </p>
+
+                        <p>
+
+                            <strong>End Time:</strong>
+
+                            <span
+                                t-esc="appointment.end_time"/>
+
+                        </p>
+
+                        <hr/>
+
+                        <h5>Notes</h5>
+
+                        <p t-esc="appointment.notes or '-'"/>
+
+                        <hr/>
+
+                        <!-- Cancel Appointment -->
+
+                        <t t-if="appointment.state == 'confirmed'">
+
+                            <a
+                                t-att-href="'/my/appointments/%s/cancel' % appointment.id"
+                                class="btn btn-danger">
+
+                                Cancel Appointment
+
+                            </a>
+
+                        </t>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+</odoo>

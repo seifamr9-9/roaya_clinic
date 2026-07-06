@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================== -->
+    <!-- Tree View -->
+    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_tree" model="ir.ui.view">
+        <field name="name">clinic.schedule.tree</field>
+        <field name="model">clinic.schedule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="doctor_id"/>
+                <field name="specialty_id"/>
+                <field name="weekday"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="slot_duration"/>
+                <field name="is_consultation"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================== -->
+    <!-- Form View -->
+    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_form" model="ir.ui.view">
+        <field name="name">clinic.schedule.form</field>
+        <field name="model">clinic.schedule</field>
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+
+                    <button
+                        name="action_generate_slots"
+                        string="Generate Slots"
+                        type="object"
+                        class="btn-primary"/>
+
+                </header>
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+
+                            <field name="doctor_id"/>
+
+                            <field
+                                name="specialty_id"
+                                readonly="1"/>
+
+                            <field name="weekday"/>
+
+                        </group>
+
+                        <group>
+
+                            <field name="start_time"/>
+
+                            <field name="end_time"/>
+
+                            <field name="slot_duration"/>
+
+                            <field name="is_consultation"/>
+
+                            <field name="active"/>
+
+                        </group>
+
+                    </group>
+
+                    <notebook>
+
+                        <page string="Generated Time Slots">
+
+                            <field name="slot_ids">
+
+                                <tree
+                                    create="0"
+                                    delete="0">
+
+                                    <field name="start_time"/>
+
+                                    <field name="end_time"/>
+
+                                    <field name="is_booked"/>
+
+                                    <field name="active"/>
+
+                                </tree>
+
+                            </field>
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+                    <!-- ===================================================== -->
+                    <!-- Search View -->
+                    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_search" model="ir.ui.view">
+        <field name="name">clinic.schedule.search</field>
+        <field name="model">clinic.schedule</field>
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="doctor_id"/>
+
+                <field name="specialty_id"/>
+
+                <field name="weekday"/>
+
+                <separator/>
+
+                <filter
+                    name="consultation"
+                    string="Consultation"
+                    domain="[('is_consultation','=',True)]"/>
+
+                <separator/>
+
+                <group string="Group By">
+
+                    <filter
+                        name="group_doctor"
+                        string="Doctor"
+                        context="{'group_by':'doctor_id'}"/>
+
+                    <filter
+                        name="group_specialty"
+                        string="Specialty"
+                        context="{'group_by':'specialty_id'}"/>
+
+                    <filter
+                        name="group_weekday"
+                        string="Weekday"
+                        context="{'group_by':'weekday'}"/>
+
+                </group>
+
+            </search>
+
+        </field>
+    </record>
+    <!-- ===================================================== -->
+    <!-- Action -->
+    <!-- ===================================================== -->
+
+    <record id="action_clinic_schedule" model="ir.actions.act_window">
+
+        <field name="name">Doctor Schedules</field>
+
+        <field name="res_model">clinic.schedule</field>
+
+        <field name="view_mode">tree,form</field>
+
+    </record>
+
+</odoo>

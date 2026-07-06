@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_crm_lead_form_hospital" model="ir.ui.view">
+        <field name="name">crm.lead.form.hospital</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+
+                <button
+                    name="action_convert_to_patient_and_appointment"
+                    type="object"
+                    string="Convert to Appointment"
+                    class="btn-primary" />
+
+                <button
+                    name="%(smart_clinic.action_lead_reject_wizard)d"
+                    string="Cancell"
+                    type="action"
+                    class="btn-danger"
+                />
+
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <label for="name" string="Patient Name" />
+            </xpath>
+
+            <xpath expr="//group[@name='lead_partner']" position="after">
+
+                <group>
+
+                    <field name="doctor_id" readonly="1" />
+                    <field name="specialty_id" readonly="1" />
+                    <field name="requested_appointment_datetime" readonly="1" />
+                    <field name="lead_source" readonly="1" />
+                    <field name="start_time" readonly="1" />
+                    <field name="end_time" readonly="1" />
+
+                </group>
+
+            </xpath>
+
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='expected_revenue']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@id='probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('d-flex')][hasclass('flex-wrap')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('o_lead_opportunity_form_inline_fields')]"
+                position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record id="view_crm_lead_tree_hospital" model="ir.ui.view">
+        <field name="name">crm.lead.tree.hospital</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor" />
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//tree" position="attributes">
+
+                <attribute name="default_order">
+                    requested_appointment_datetime desc
+                </attribute>
+
+                <attribute name="decoration-danger">stage_id.name == 'Cancelled'</attribute>
+                <attribute name="decoration-muted">stage_id.name == 'Awaiting Approval'</attribute>
+                <attribute name="decoration-success">stage_id.name == 'Confirmed'</attribute>
+            </xpath>
+
+
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="requested_appointment_datetime" />
+            </xpath>
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="widget">badge</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email_from']" position="after">
+                <field name="phone" />
+            </xpath>
+            <xpath expr="//field[@name='expected_revenue']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

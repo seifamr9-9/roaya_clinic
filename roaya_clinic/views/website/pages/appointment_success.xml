@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_appointment_success" name="Appointment Success">
+
+        <t t-call="website.layout">
+
+            <section class="py-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card shadow">
+                                <div class="card-body text-center p-5">
+
+                                    <i class="fa fa-check-circle text-success" style="font-size:70px;"></i>
+
+                                    <h2 class="mt-4">
+                                        Appointment Confirmed
+                                    </h2>
+
+                                    <p class="text-muted">
+                                        Your request has been received successfully.
+                                    </p>
+
+                                    <hr/>
+
+                                    <div class="text-start" t-if="appointment">
+                                        <p>
+                                            <strong>Appointment No :</strong>
+                                            <t t-esc="appointment.name"/>
+                                        </p>
+                                        <p>
+                                            <strong>Doctor :</strong>
+                                            <t t-esc="appointment.doctor_id.name"/>
+                                        </p>
+                                        <p>
+                                            <strong>Department :</strong>
+                                            <t t-esc="appointment.specialty_id.name"/>
+                                        </p>
+                                        <p>
+                                            <strong>Date :</strong>
+                                            <t t-esc="appointment.date"/>
+                                        </p>
+                                        <p>
+                                            <strong>From :</strong>
+                                            <t t-esc="appointment.start_time"/>
+                                        </p>
+                                        <p>
+                                            <strong>To :</strong>
+                                            <t t-esc="appointment.end_time"/>
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="text-center" t-else="">
+                                        <p class="text-info">We will contact you shortly to confirm the details.</p>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <a href="/" class="btn btn-primary">
+                                            Back Home
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </t>
+
+    </template>
+
+</odoo>

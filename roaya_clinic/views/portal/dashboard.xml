@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template id="portal_dashboard"
+              name="Smart Clinic Dashboard">
+
+        <t t-call="portal.portal_layout">
+
+            <div class="container mt-4">
+
+                <h2>Patient Dashboard</h2>
+
+                <div class="row mt-4">
+
+                    <div class="col-md-4">
+
+                        <div class="card text-center">
+
+                            <div class="card-body">
+
+                                <h3>
+                                    <t t-esc="appointments_count"/>
+                                </h3>
+
+                                <p>Appointments</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="card text-center">
+
+                            <div class="card-body">
+
+                                <h3>
+                                    <t t-esc="labs_count"/>
+                                </h3>
+
+                                <p>Lab Orders</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="card text-center">
+
+                            <div class="card-body">
+
+                                <h3>
+                                    <t t-esc="charges_count"/>
+                                </h3>
+
+                                <p>Bills</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </t>
+
+    </template>
+
+
+
+    <!-- ==========================================================
+         Add Clinic Portal To /my Page
+    ========================================================== -->
+
+    <template
+        id="portal_my_home_clinic"
+        inherit_id="portal.portal_my_home">
+
+        <xpath
+            expr="//div[contains(@class,'o_portal_docs')]"
+            position="inside">
+
+            <div class="o_portal_doc card p-3 m-2">
+
+                <a href="/my/clinic"
+                   class="text-decoration-none">
+
+                    <h5>
+                        Clinic Portal
+                    </h5>
+
+                    <p>
+                        Access your medical dashboard
+                    </p>
+
+                </a>
+
+            </div>
+
+            <div class="o_portal_doc card p-3 m-2">
+
+                <a href="/my/appointments"
+                   class="text-decoration-none">
+
+                    <h5>
+                        My Appointments
+                    </h5>
+
+                    <p>
+                        View and manage appointments
+                    </p>
+
+                </a>
+
+            </div>
+
+        </xpath>
+
+    </template>
+
+</odoo>

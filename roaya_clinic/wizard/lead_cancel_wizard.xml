@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- views/lead_reject_wizard_views.xml -->
+
+    <record id="view_lead_reject_wizard_form_new" model="ir.ui.view">
+        <field name="name">clinic.lead.reject.wizard.form</field>
+        <field name="model">clinic.lead.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject Appointment Request">
+
+                <div class="alert alert-danger" role="alert">
+                    <strong>Attention:</strong> This will permanently reject the appointment request
+                    and notify the patient. This action cannot be undone. </div>
+
+                <group string="Request Details">
+                    <field name="lead_id" invisible="1" />
+                    <field name="patient_name" />
+                    <field name="lead_name" />
+                </group>
+
+                <group string="Rejection">
+                    <field
+                        name="rejection_reason"
+                        widget="text"
+                        nolabel="1"
+                        colspan="2"
+                        placeholder="Enter the reason for rejection (e.g. Doctor unavailable, slot fully booked)..."
+                    />
+                    <field name="send_email" />
+                </group>
+
+                <footer>
+                    <button
+                        name="action_confirm_rejection"
+                        string="Confirm Rejection"
+                        type="object"
+                        class="btn-danger"
+                        data-hotkey="v"
+                    />
+                    <button string="Discard" class="btn-secondary" special="cancel" />
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_lead_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Reject Appointment Request</field>
+        <field name="res_model">clinic.lead.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_lead_id': active_id}</field>
+    </record>
+
+</odoo>

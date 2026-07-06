@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= REPORT ACTION ================= -->
+    <record id="action_report_charge" model="ir.actions.report">
+        <field name="name">Charge</field>
+        <field name="model">clinic.charge</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_clinic.report_charge</field>
+        <field name="report_file">smart_clinic.report_charge</field>
+        <field name="print_report_name">'Charge - %s' % (object.patient_id.name)</field>
+        <field name="binding_model_id" ref="model_clinic_charge"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ================= REPORT TEMPLATE ================= -->
+    <template id="report_charge">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <h2>Charge / Invoice</h2>
+
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <strong>Patient:</strong>
+                                <span t-field="doc.patient_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Doctor:</strong>
+                                <span t-field="doc.doctor_id.name"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <strong>Due Date:</strong>
+                                <span t-field="doc.due_date"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Appointment:</strong>
+                                <span t-field="doc.appointment_id.name"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Late Fee</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span t-field="doc.line_type"/></td>
+                                    <td><span t-field="doc.amount"/></td>
+                                    <td><span t-field="doc.late_fee"/></td>
+                                    <td><span t-field="doc.total_amount"/></td>
+                                    <td><span t-field="doc.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4" t-if="doc.payment_date">
+                            <div class="col-6">
+                                <strong>Payment Date:</strong>
+                                <span t-field="doc.payment_date"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Payment Method:</strong>
+                                <span t-field="doc.payment_method"/>
+                            </div>
+                        </div>
+
+                        <div class="mt-4" t-if="doc.notes">
+                            <strong>Notes:</strong>
+                            <p t-field="doc.notes"/>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template
+        id="portal_my_home_menu"
+        inherit_id="portal.portal_breadcrumbs">
+
+        <xpath
+            expr="//ol[contains(@class,'o_portal_submenu')]"
+            position="inside">
+
+            <t t-if="page_name in ['clinic_dashboard', 'appointments', 'appointment_details']">
+
+                <li class="breadcrumb-item">
+
+                    <a href="/my/clinic">
+
+                        Clinic Portal
+
+                    </a>
+
+                </li>
+
+            </t>
+
+        </xpath>
+
+    </template>
+
+</odoo>

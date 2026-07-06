@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="hero_section" name="Hero Section">
+        <section class="hero-section py-5 bg-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <span class="badge bg-primary text-white mb-2 p-2">Smart Clinic Solutions</span>
+                        <h1 class="display-4 fw-bold mb-4">Your Health Is <span class="text-primary">Our Priority</span></h1>
+                        <p class="lead mb-4 text-muted">Professional healthcare with experienced doctors, online booking, and secure patient records.</p>
+                        <div class="d-flex gap-2">
+                            <a href="/web/login" class="btn btn-primary btn-lg">Book Appointment</a>
+                            <a href="/doctors" class="btn btn-outline-primary btn-lg">Meet Doctors</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                        <img src="/smart_clinic/static/src/img/doctor.png" class="img-fluid rounded shadow-lg" alt="Clinic Hero"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

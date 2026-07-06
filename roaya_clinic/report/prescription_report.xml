@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= REPORT ACTION ================= -->
+    <record id="action_report_prescription" model="ir.actions.report">
+        <field name="name">Prescription</field>
+        <field name="model">clinic.prescription</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">smart_clinic.report_prescription</field>
+        <field name="report_file">smart_clinic.report_prescription</field>
+        <field name="print_report_name">'Prescription - %s' % (object.patient_id.name)</field>
+        <field name="binding_model_id" ref="model_clinic_prescription"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- ================= REPORT TEMPLATE ================= -->
+    <template id="report_prescription">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <h2>Prescription</h2>
+
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <strong>Patient:</strong>
+                                <span t-field="doc.patient_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Doctor:</strong>
+                                <span t-field="doc.doctor_id.name"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <strong>Date:</strong>
+                                <span t-field="doc.date"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Appointment:</strong>
+                                <span t-field="doc.appointment_id.name"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Medication</th>
+                                    <th>Dosage</th>
+                                    <th>Frequency</th>
+                                    <th>Duration (days)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span t-field="doc.medication_name"/></td>
+                                    <td><span t-field="doc.dosage"/></td>
+                                    <td><span t-field="doc.frequency"/></td>
+                                    <td><span t-field="doc.duration_days"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4" t-if="doc.notes">
+                            <strong>Notes:</strong>
+                            <p t-field="doc.notes"/>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

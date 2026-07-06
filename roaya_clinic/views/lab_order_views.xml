@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_lab_order_tree" model="ir.ui.view">
+        <field name="name">clinic.lab.order.tree</field>
+        <field name="model">clinic.lab_order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="appointment_id"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="test_type"/>
+                <field name="urgency"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_lab_order_form" model="ir.ui.view">
+        <field name="name">clinic.lab.order.form</field>
+        <field name="model">clinic.lab_order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="appointment_id"/>
+                        <field name="patient_id" readonly="1"/>
+                        <field name="doctor_id" readonly="1"/>
+                        <field name="test_type"/>
+                        <field name="urgency"/>
+                        <field name="state"/>
+                    </group>
+                    <group>
+                        <field name="ordered_date"/>
+                        <field name="completed_date"/>
+                        <field name="actual_cost"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="result"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_lab_order" model="ir.actions.act_window">
+        <field name="name">Lab Orders</field>
+        <field name="res_model">clinic.lab_order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

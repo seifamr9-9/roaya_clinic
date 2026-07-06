@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="page_appointment" name="Clinic Appointment">
+            <t t-call="website.layout">
+                <section class="clinic-section py-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-primary text-white p-3">
+                                        <h3 class="mb-0">Appointment Details</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form action="/appointment/confirm" method="post">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                            <!-- Personal Info Row -->
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Full Name</label>
+                                                    <input type="text" class="form-control" name="patient_name" required="required"/>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email" class="form-control" name="patient_email" required="required"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Mobile</label>
+                                                    <input type="text" class="form-control" name="patient_phone" required="required"/>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label">Gender</label>
+                                                    <select class="form-select" name="patient_gender">
+                                                        <option value="">Select Gender</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Date Of Birth</label>
+                                                <input type="date" class="form-control" name="patient_dob"/>
+                                            </div>
+
+                                            <!-- Selection Fields -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Department</label>
+                                                <select class="form-select" name="specialty_id" required="required">
+                                                    <option value="">Select Department</option>
+                                                    <t t-foreach="specialties" t-as="sp">
+                                                        <option t-att-value="sp.id"><t t-esc="sp.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Doctor</label>
+                                                <select class="form-select" name="doctor_id" required="required">
+                                                    <option value="">Select Doctor</option>
+                                                    <t t-foreach="doctors" t-as="doctor">
+                                                        <option t-att-value="doctor.id" t-att-selected="'selected' if doctor.id == doctor_id else None">
+                                                            <t t-esc="doctor.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Appointment Date</label>
+                                                <input type="date" class="form-control" name="appointment_date" required="required"/>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Available Time</label>
+                                                <select class="form-select" name="slot_id" required="required">
+                                                    <option value="">Select Time Slot</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">Notes</label>
+                                                <textarea class="form-control" rows="4" name="notes"></textarea>
+                                            </div>
+
+                                            <div class="text-end">
+                                                <button class="btn btn-primary btn-lg" style="background-color: #0b2e59; border-color: #0b2e59;" type="submit">
+                                                    Confirm Appointment
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </template>
+    </data>
+</odoo>

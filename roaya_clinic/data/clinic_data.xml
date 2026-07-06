@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================= -->
+    <!-- Specialties -->
+    <!-- ========================= -->
+    <record id="specialty_cardiology" model="clinic.specialty">
+        <field name="name">Cardiology</field>
+        <field name="description">Diagnosis and treatment of heart diseases.</field>
+    </record>
+    <record id="specialty_pediatrics" model="clinic.specialty">
+        <field name="name">Pediatrics</field>
+        <field name="description">Healthcare services for infants, children, and adolescents.</field>
+    </record>
+    <record id="specialty_dermatology" model="clinic.specialty">
+        <field name="name">Dermatology</field>
+        <field name="description">Diagnosis and treatment of skin conditions.</field>
+    </record>
+    <record id="specialty_general_medicine" model="clinic.specialty">
+        <field name="name">General Medicine</field>
+        <field name="description">General medical consultation and primary healthcare.</field>
+    </record>
+    <!-- ========================= -->
+    <!-- Patients -->
+    <!-- ========================= -->
+    <record id="patient_mohamed" model="clinic.patient">
+        <field name="name">Mohamed Mostafa</field>
+        <field name="email">mohamed@example.com</field>
+        <field name="phone">01010000001</field>
+        <field name="mobile">01010000001</field>
+        <field name="date_of_birth">1998-05-10</field>
+        <field name="gender">male</field>
+        <field name="blood_type">a+</field>
+        <field name="allergies">Penicillin</field>
+    </record>
+    <record id="patient_ahmed" model="clinic.patient">
+        <field name="name">Ahmed Ali</field>
+        <field name="email">ahmed@example.com</field>
+        <field name="phone">01010000002</field>
+        <field name="mobile">01010000002</field>
+        <field name="date_of_birth">1995-08-20</field>
+        <field name="gender">male</field>
+        <field name="blood_type">o+</field>
+        <field name="allergies">None</field>
+    </record>
+    <record id="patient_sara" model="clinic.patient">
+        <field name="name">Sara Hassan</field>
+        <field name="email">sara@example.com</field>
+        <field name="phone">01010000003</field>
+        <field name="mobile">01010000003</field>
+        <field name="date_of_birth">2000-03-15</field>
+        <field name="gender">female</field>
+        <field name="blood_type">b+</field>
+        <field name="allergies">Dust</field>
+    </record>
+    <record id="patient_omar" model="clinic.patient">
+        <field name="name">Omar Khaled</field>
+        <field name="email">omar@example.com</field>
+        <field name="phone">01010000004</field>
+        <field name="mobile">01010000004</field>
+        <field name="date_of_birth">1992-11-01</field>
+        <field name="gender">male</field>
+        <field name="blood_type">ab+</field>
+        <field name="allergies">Seafood</field>
+    </record>
+    <record id="patient_mariam" model="clinic.patient">
+        <field name="name">Mariam Adel</field>
+        <field name="email">mariam@example.com</field>
+        <field name="phone">01010000005</field>
+        <field name="mobile">01010000005</field>
+        <field name="date_of_birth">1999-01-25</field>
+        <field name="gender">female</field>
+        <field name="blood_type">o-</field>
+        <field name="allergies">Pollen</field>
+    </record>
+    <!-- ========================= -->
+    <!-- Doctors -->
+    <!-- ========================= -->
+    <record id="doctor_ahmed" model="clinic.doctor">
+        <field name="name">Dr. Ahmed Hassan</field>
+        <field name="specialty_id" ref="specialty_cardiology"/>
+        <field name="license_number">DOC001</field>
+        <field name="consultation_fee">300</field>
+        <field name="weekday_schedule">sun</field>
+    </record>
+    <record id="doctor_sara" model="clinic.doctor">
+        <field name="name">Dr. Sara Ali</field>
+        <field name="specialty_id" ref="specialty_pediatrics"/>
+        <field name="license_number">DOC002</field>
+        <field name="consultation_fee">250</field>
+        <field name="weekday_schedule">mon</field>
+    </record>
+    <record id="doctor_mohamed" model="clinic.doctor">
+        <field name="name">Dr. Mohamed Adel</field>
+        <field name="specialty_id" ref="specialty_dermatology"/>
+        <field name="license_number">DOC003</field>
+        <field name="consultation_fee">350</field>
+        <field name="weekday_schedule">tue</field>
+    </record>
+    <record id="doctor_nour" model="clinic.doctor">
+        <field name="name">Dr. Nour Hassan</field>
+        <field name="specialty_id" ref="specialty_general_medicine"/>
+        <field name="license_number">DOC004</field>
+        <field name="consultation_fee">200</field>
+        <field name="weekday_schedule">wed</field>
+    </record>
+    <!-- ========================= -->
+    <!-- Appointments -->
+    <!-- ========================= -->
+    <record id="appointment_1" model="clinic.appointment">
+        <field name="patient_id" ref="patient_mohamed"/>
+        <field name="doctor_id" ref="doctor_ahmed"/>
+        <field name="date">2026-07-01</field>
+        <field name="start_time">9.0</field>
+        <field name="end_time">10.0</field>
+        <field name="reason">Routine Checkup</field>
+        <field name="state">draft</field>
+    </record>
+    <record id="appointment_2" model="clinic.appointment">
+        <field name="patient_id" ref="patient_ahmed"/>
+        <field name="doctor_id" ref="doctor_sara"/>
+        <field name="date">2026-07-02</field>
+        <field name="start_time">9.0</field>
+        <field name="end_time">10.0</field>
+        <field name="reason">Fever</field>
+        <field name="state">confirmed</field>
+    </record>
+    <record id="appointment_3" model="clinic.appointment">
+        <field name="patient_id" ref="patient_sara"/>
+        <field name="doctor_id" ref="doctor_mohamed"/>
+        <field name="date">2026-07-03</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">11.0</field>
+        <field name="reason">Skin Allergy</field>
+        <field name="state">checked_in</field>
+    </record>
+    <record id="appointment_4" model="clinic.appointment">
+        <field name="patient_id" ref="patient_omar"/>
+        <field name="doctor_id" ref="doctor_nour"/>
+        <field name="date">2026-07-04</field>
+        <field name="start_time">11.0</field>
+        <field name="end_time">12.0</field>
+        <field name="reason">General Consultation</field>
+        <field name="state">done</field>
+    </record>
+    <record id="appointment_5" model="clinic.appointment">
+        <field name="patient_id" ref="patient_mariam"/>
+        <field name="doctor_id" ref="doctor_ahmed"/>
+        <field name="date">2026-07-05</field>
+        <field name="start_time">12.0</field>
+        <field name="end_time">13.0</field>
+        <field name="reason">Heart Follow-up</field>
+        <field name="state">cancelled</field>
+    </record>
+    <record id="appointment_6" model="clinic.appointment">
+        <field name="patient_id" ref="patient_mohamed"/>
+        <field name="doctor_id" ref="doctor_sara"/>
+        <field name="date">2026-07-06</field>
+        <field name="start_time">13.0</field>
+        <field name="end_time">14.0</field>
+        <field name="reason">Pediatric Consultation</field>
+        <field name="state">no_show</field>
+    </record>
+    <!-- ========================= -->
+    <!-- Lab Orders -->
+    <!-- ========================= -->
+    <record id="lab_order_1" model="clinic.lab_order">
+        <field name="appointment_id" ref="appointment_1"/>
+        <field name="patient_id" ref="patient_mohamed"/>
+        <field name="doctor_id" ref="doctor_ahmed"/>
+        <field name="test_type">blood</field>
+        <field name="description">Complete Blood Count (CBC)</field>
+        <field name="urgency">medium</field>
+        <field name="state">ordered</field>
+        <field name="ordered_date">2026-07-01</field>
+        <field name="actual_cost">200</field>
+    </record>
+    <record id="lab_order_2" model="clinic.lab_order">
+        <field name="appointment_id" ref="appointment_2"/>
+        <field name="patient_id" ref="patient_ahmed"/>
+        <field name="doctor_id" ref="doctor_sara"/>
+        <field name="test_type">mri</field>
+        <field name="description">Brain MRI</field>
+        <field name="urgency">high</field>
+        <field name="state">in_progress</field>
+        <field name="ordered_date">2026-07-02</field>
+        <field name="actual_cost">1200</field>
+    </record>
+    <record id="lab_order_3" model="clinic.lab_order">
+        <field name="appointment_id" ref="appointment_3"/>
+        <field name="patient_id" ref="patient_sara"/>
+        <field name="doctor_id" ref="doctor_mohamed"/>
+        <field name="test_type">xray</field>
+        <field name="description">Chest X-Ray</field>
+        <field name="urgency">low</field>
+        <field name="state">done</field>
+        <field name="ordered_date">2026-07-03</field>
+        <field name="completed_date">2026-07-03</field>
+        <field name="actual_cost">350</field>
+    </record>
+    <!-- ========================= -->
+    <!-- Charges -->
+    <!-- ========================= -->
+    <record id="charge_1" model="clinic.charge">
+        <field name="appointment_id" ref="appointment_1"/>
+        <field name="line_type">consultation</field>
+        <field name="amount">300</field>
+        <field name="late_fee">0</field>
+        <field name="due_date">2026-07-01</field>
+        <field name="payment_date">2026-07-01</field>
+        <field name="payment_method">cash</field>
+        <field name="state">paid</field>
+    </record>
+    <record id="charge_2" model="clinic.charge">
+        <field name="appointment_id" ref="appointment_2"/>
+        <field name="line_type">lab</field>
+        <field name="amount">500</field>
+        <field name="late_fee">50</field>
+        <field name="due_date">2026-07-02</field>
+        <field name="payment_method">card</field>
+        <field name="state">pending</field>
+    </record>
+    <record id="charge_3" model="clinic.charge">
+        <field name="appointment_id" ref="appointment_3"/>
+        <field name="line_type">prescription</field>
+        <field name="amount">150</field>
+        <field name="late_fee">0</field>
+        <field name="due_date">2026-07-03</field>
+        <field name="state">draft</field>
+    </record>
+</odoo>

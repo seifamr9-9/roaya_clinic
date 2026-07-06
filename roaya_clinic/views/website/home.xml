@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+<template id="home_page">
+
+<t t-call="website.layout">
+
+<div id="wrap" class="oe_structure">
+
+<t t-call="smart_clinic.hero_section"/>
+
+</div>
+
+</t>
+
+</template>
+
+</odoo>

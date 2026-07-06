@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================== -->
+    <!-- Tree View -->
+    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_slot_tree" model="ir.ui.view">
+        <field name="name">clinic.schedule.slot.tree</field>
+        <field name="model">clinic.schedule.slot</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="doctor_id"/>
+                <field name="specialty_id"/>
+                <field name="weekday"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <field name="is_booked"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================================================== -->
+    <!-- Form View -->
+    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_slot_form" model="ir.ui.view">
+        <field name="name">clinic.schedule.slot.form</field>
+        <field name="model">clinic.schedule.slot</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="doctor_id" readonly="1"/>
+                            <field name="specialty_id" readonly="1"/>
+                            <field name="weekday" readonly="1"/>
+                        </group>
+
+                        <group>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="is_booked"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================================================== -->
+    <!-- Search View -->
+    <!-- ===================================================== -->
+
+    <record id="view_clinic_schedule_slot_search" model="ir.ui.view">
+        <field name="name">clinic.schedule.slot.search</field>
+        <field name="model">clinic.schedule.slot</field>
+        <field name="arch" type="xml">
+            <search>
+
+                <field name="doctor_id"/>
+
+                <field name="specialty_id"/>
+
+                <field name="weekday"/>
+
+                <separator/>
+
+                <filter string="Available"
+                        name="available"
+                        domain="[('is_booked','=',False)]"/>
+
+                <filter string="Booked"
+                        name="booked"
+                        domain="[('is_booked','=',True)]"/>
+
+                <separator/>
+
+                <filter string="Doctor"
+                        name="group_doctor"
+                        context="{'group_by':'doctor_id'}"/>
+
+                <filter string="Specialty"
+                        name="group_specialty"
+                        context="{'group_by':'specialty_id'}"/>
+
+                <filter string="Weekday"
+                        name="group_weekday"
+                        context="{'group_by':'weekday'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <!-- ===================================================== -->
+    <!-- Action -->
+    <!-- ===================================================== -->
+
+    <record id="action_clinic_schedule_slot"
+            model="ir.actions.act_window">
+
+        <field name="name">Available Slots</field>
+
+        <field name="res_model">clinic.schedule.slot</field>
+
+        <field name="view_mode">tree,form</field>
+
+        <field name="search_view_id"
+               ref="view_clinic_schedule_slot_search"/>
+
+    </record>
+
+</odoo>

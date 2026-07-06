@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_daily_census_wizard_form" model="ir.ui.view">
+        <field name="name">daily.census.wizard.form</field>
+        <field name="model">daily.census.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Daily Census Report">
+                <field name="state" invisible="1"/>
+                <group>
+                    <field name="date"/>
+                </group>
+                <group invisible="state != 'done'">
+                    <field name="excel_file" filename="file_name" widget="binary"/>
+                    <field name="file_name" invisible="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_generate_excel"
+                        string="Generate Excel"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="state == 'done'"
+                    />
+                    <button
+                        string="Close"
+                        class="btn-secondary"
+                        special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

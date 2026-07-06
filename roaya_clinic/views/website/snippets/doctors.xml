@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="doctors_page" name="Doctors">
+        <t t-call="website.layout">
+            <div id="wrap" class="container py-5">
+                <h2 class="text-center fw-bold mb-5">Our Medical Specialists</h2>
+                <div class="row g-3 mb-5">
+                    <div class="col-lg-8">
+                        <form action="/doctors" method="get" class="d-flex">
+                            <input type="text" name="search" class="form-control me-2" placeholder="Search doctor name..." t-att-value="search"/>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <form action="/doctors" method="get">
+                            <select name="specialty_id" class="form-select" onchange="this.form.submit()">
+                                <option value="">All Specialties</option>
+                                <t t-foreach="specialties" t-as="sp">
+                                    <option t-att-value="sp.id" t-att-selected="selected_specialty == sp.id"><t t-esc="sp.name"/></option>
+                                </t>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <t t-foreach="doctors" t-as="doctor">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm hover-shadow">
+                                <img t-att-src="'/web/image/clinic.doctor/%s/image_1920' % doctor.id if doctor.image_1920 else '/web/static/img/placeholder.png'" 
+                                     class="card-img-top p-3" alt="Doctor" style="height: 250px; object-fit: cover;"/>
+                                <div class="card-body text-center">
+                                    <h5 class="fw-bold">Dr. <t t-esc="doctor.name"/></h5>
+                                    <p class="text-primary mb-1 fw-medium"><t t-esc="doctor.specialty_id.name"/></p>
+                                    <p class="text-muted small">Fee: <t t-esc="doctor.consultation_fee"/> EGP</p>
+                                    <a t-attf-href="/appointment?doctor_id={{ doctor.id }}" class="btn btn-outline-primary w-100 mt-2">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

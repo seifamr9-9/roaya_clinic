@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="about_page" name="About Us">
+        <t t-call="website.layout">
+            <div id="wrap" class="container py-5">
+                <div class="row align-items-center mb-5">
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold mb-3">About Smart Clinic</h2>
+                        <p class="text-muted">Modern healthcare management system providing medical services with professional doctors, online appointments, and patient portal.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row g-3">
+                            <t t-foreach="{'Doctors': doctor_count, 'Patients': patient_count, 'Appointments': appointment_count, 'Specialties': specialty_count}.items()" t-as="stat">
+                                <div class="col-6">
+                                    <div class="card p-3 text-center border-0 bg-light shadow-sm">
+                                        <h2 class="fw-bold text-primary mb-0"><t t-esc="stat[1]"/></h2>
+                                        <small class="text-uppercase fw-bold"><t t-esc="stat[0]"/></small>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

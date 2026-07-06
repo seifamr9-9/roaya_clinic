@@ -1,0 +1,35 @@
+/* Global Styles */
+:root {
+    --primary-color: #2563eb;
+    --border-radius: 12px;
+}
+body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; }
+
+/* Cards Styling */
+.card {
+    border-radius: var(--border-radius) !important;
+    transition: all 0.3s ease;
+    border: none !important;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    &:hover { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 8px !important;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+/* Navigation & Hero */
+.hero-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+}
+
+/* Inputs */
+.form-control, .form-select {
+    border-radius: 8px !important;
+    padding: 12px !important;
+    border: 1px solid #e2e8f0;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- <template id="doctors_page" name="Doctors Page">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Our Doctors</h1>
+            </div>
+        </t>
+    </template> -->
+
+</odoo>

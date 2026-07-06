@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_clinic_doctor_tree" model="ir.ui.view">
+        <field name="name">clinic.doctor.tree</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <tree string="Doctors"
+      decoration-success="active"
+      decoration-muted="not active">
+                <field name="name"/>
+                <field name="specialty_id" widget="badge"/>
+                <field name="license_number"/>
+                <field name="consultation_fee"
+           widget="monetary"
+           options="{'currency_field': 'currency_id'}"/>
+                <field name="today_appointment_count"
+           widget="badge"/>
+                <field name="active"
+           widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_clinic_doctor_form" model="ir.ui.view">
+        <field name="name">clinic.doctor.form</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <form string="Doctor">
+                <sheet>
+                    <div class="oe_title">
+                        <div class="oe_avatar" style="float:left; margin-right:20px;">
+                            <field name="image_1920"
+                                   widget="image"
+                                   options="{'size': [120, 120]}"/>
+                        </div>
+                        <div>
+                            <h1>
+                                <field name="name"
+                                        placeholder="Doctor Name"/>
+                            </h1>
+                            <h3>
+                                <field name="specialty_id" widget="badge"/>
+                            </h3>
+                            <group col="2">
+                                <group>
+                                    <field name="specialty_id"/>
+                                    <field name="consultation_fee"/>
+                                </group>
+                                <group>
+                                    <field name="active"/>
+                                    <field name="license_number"/>
+                                </group>
+                            </group>
+                        </div>
+                    </div>
+                    <group string="Doctor Information">
+                        <group>
+                            <field name="user_id"/>
+                            <field name="email" readonly="1"/>
+                            <field name="phone" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="today_appointment_count" widget="statinfo" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Appointments">
+                            <field name="appointment_ids" readonly="1">
+                                <tree
+                                        decoration-success="state == 'done'"
+                                        decoration-warning="state == 'confirmed'"
+                                        decoration-info="state == 'checked_in'"
+                                        decoration-primary="state == 'in_progress'"
+                                        decoration-danger="state == 'cancelled'"
+                                        decoration-muted="state == 'no_show'">
+                                    <field name="name"/>
+                                    <field name="patient_id"/>
+                                    <field name="date"/>
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Lab Orders">
+                            <field name="lab_order_ids">
+                                <tree
+                                        decoration-success="state == 'done'"
+                                        decoration-warning="state == 'ordered'"
+                                        decoration-info="state == 'in_progress'">
+                                    <field name="name"/>
+                                    <field name="patient_id"/>
+                                    <field name="test_type" widget="badge"/>
+                                    <field name="urgency" widget="badge"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="ordered_date"/>
+                                    <field name="actual_cost"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Prescriptions">
+                            <field name="prescription_ids" nolabel="1">
+                                <tree create="0" delete="0" >
+                                    <field name="date"/>
+                                    <field name="patient_id"/>
+                                    <field name="appointment_id"/>
+                                    <field name="medication_name"/>
+                                    <field name="dosage"/>
+                                    <field name="frequency" widget="badge"/>
+                                    <field name="duration_days"/>
+                                </tree>
+                                <form string="Prescription">
+                                    <sheet>
+                                        <group col="2">
+                                            <group>
+                                                <field name="date" readonly="1"/>
+                                                <field name="patient_id" readonly="1"/>
+                                                <field name="doctor_id" readonly="1"/>
+                                                <field name="appointment_id" readonly="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="medication_name"/>
+                                                <field name="dosage"/>
+                                                <field name="frequency"/>
+                                                <field name="duration_days"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="notes"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_clinic_doctor_search" model="ir.ui.view">
+        <field name="name">clinic.doctor.search</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="specialty_id"/>
+                <field name="license_number"/>
+                <filter name="active"
+                    string="Active"
+                    domain="[('active','=',True)]"/>
+                <filter name="inactive"
+                    string="Inactive"
+                    domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_specialty"
+                        string="Specialty"
+                        context="{'group_by':'specialty_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

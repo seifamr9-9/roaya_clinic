@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Send Reminder to patients of upcoming visits [24-hours] [Cron] -->
+    <record id="ir_cron_send_appointment_reminders" model="ir.cron">
+        <field name="name">Smart Clinic: Send Appointment Reminders Emails</field>
+        <field name="model_id" ref="model_clinic_appointment" />
+        <field name="state">code</field>
+        <field name="code">model._cron_send_appointment_reminders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-06-29 08:00:00</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+        <field name="active" eval="True" />
+    </record>
+
+    <!-- Auto flag no-shows appoitments if past x hours[Cron] -->
+    <record id="ir_cron_auto_mark_no_show_appointments" model="ir.cron">
+        <field name="name">Smart Clinic: Auto Mark Appointment As No Show</field>
+        <field name="model_id" ref="model_clinic_appointment" />
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_mark_no_show()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+        <field name="active" eval="True" />
+    </record>
+
+    <!-- threshold is stored in Settings/Technical/System Parameters -->
+    <record id="clinic_no_show_hours" model="ir.config_parameter">
+        <field name="key">clinic.no_show_hours</field>
+        <field name="value">2</field>
+    </record>
+
+</odoo>

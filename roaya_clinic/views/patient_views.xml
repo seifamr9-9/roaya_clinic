@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================= TREE VIEW ================= -->
+    <record id="view_clinic_patient_tree" model="ir.ui.view">
+        <field name="name">clinic.patient.tree</field>
+        <field name="model">clinic.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Patients" decoration-success="active" decoration-muted="not active">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="gender" widget="badge"/>
+                <field name="blood_type" widget="badge"/>
+                <field name="age"/> 
+                    <field name="active" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+        <!-- ================= FORM VIEW ================= -->
+        <record id="view_clinic_patient_form" model="ir.ui.view">
+            <field name="name">clinic.patient.form</field>
+            <field name="model">clinic.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient">
+                    <header>
+                        <button name="action_print_patient_medical_summary"
+                            type="object"
+                            string="Print Medical Summary"
+                            class="btn-secondary"/>
+                        <button name="action_open_create_appointment_wizard" string="New Appointment" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_avatar" style="float:left; margin-right:20px;">
+                                <field name="image_1920"
+                                   widget="image"
+                                   options="{'size': [120, 120]}"/>
+                            </div>
+                            <div>
+                                <h1>
+                                    <field name="name" placeholder="Patient Name"/>
+                                </h1>
+                                <h3>
+                                    <field name="gender" widget="badge"/>
+                                    <field name="blood_type" widget="badge"/>
+                                </h3>
+                            </div>
+                        </div>
+                        <group string="Patient Information" col="2">
+                            <group>
+                                <field name="gender"/>
+                                <field name="date_of_birth"/>
+                                <field name="age" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                            </group>
+                        </group>
+                        <group string="Medical Information" col="2">
+                            <group>
+                                <field name="blood_type"/>
+                                <field name="allergies"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Appointments">
+                                <field name="appointment_ids" readonly="1">
+                                    <tree
+                                    decoration-success="state == 'done'"
+                                    decoration-warning="state == 'confirmed'"
+                                    decoration-info="state == 'checked_in'"
+                                    decoration-primary="state == 'in_progress'"
+                                    decoration-danger="state == 'cancelled'"
+                                    decoration-muted="state == 'no_show'">
+                                        <field name="name"/>
+                                        <field name="doctor_id"/>
+                                        <field name="date"/>
+                                        <field name="start_time"/>
+                                        <field name="end_time"/>
+                                        <field name="state" widget="badge"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Prescriptions">
+                                <field name="prescription_ids" readonly="1">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="doctor_id"/>
+                                        <field name="appointment_id"/>
+                                        <field name="medication_name"/>
+                                        <field name="dosage" widget="badge"/>
+                                        <field name="frequency" widget="badge"/>
+                                        <field name="duration_days"/>
+                                    </tree>
+                                    <form string="Prescription">
+                                        <sheet>
+                                            <group col="2">
+                                                <group>
+                                                    <field name="date"/>
+                                                    <field name="doctor_id"/>
+                                                    <field name="appointment_id"/>
+                                                </group>
+                                                <group>
+                                                    <field name="medication_name"/>
+                                                    <field name="dosage"/>
+                                                    <field name="frequency"/>
+                                                    <field name="duration_days"/>
+                                                </group>
+                                            </group>
+                                            <group>
+                                                <field name="notes"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Lab Orders">
+                                <field name="lab_order_ids" readonly="1">
+                                    <tree
+                                    decoration-success="state == 'done'"
+                                    decoration-warning="state == 'ordered'"
+                                    decoration-info="state == 'in_progress'">
+                                        <field name="name"/>
+                                        <field name="appointment_id"/>
+                                        <field name="doctor_id"/>
+                                        <field name="test_type" widget="badge"/>
+                                        <field name="urgency" widget="badge"/>
+                                        <field name="state" widget="badge"/>
+                                        <field name="ordered_date"/>
+                                        <field name="actual_cost"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- ================= SEARCH VIEW ================= -->
+        <record id="view_clinic_patient_search" model="ir.ui.view">
+            <field name="name">clinic.patient.search</field>
+            <field name="model">clinic.patient</field>
+            <field name="arch" type="xml">
+                <search string="Patients">
+                    <!-- Search fields -->
+                    
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="age"/>
+                    <!-- Filters -->
+                    <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('active','=',False)]"/>
+                    <filter string="Male" name="male" domain="[('gender','=','male')]"/>
+                    <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+                    <filter string="Has Allergies"
+                        name="has_allergies"
+                        domain="[('allergies','!=',False)]"/>
+                    <!-- Group By -->
+                    <group expand="0" string="Group By">
+                        <filter string="Gender" name="group_gender" context="{'group_by':'gender'}"/>
+                        <filter string="Blood Type" name="group_blood" context="{'group_by':'blood_type'}"/>
+                        <filter string="Active" name="group_active" context="{'group_by':'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- ================= ACTION ================= -->
+        <record id="action_clinic_patient" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">clinic.patient</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_clinic_patient_search"/>
+        </record>
+        <!-- ================= REPORT ================= -->
+        <record id="action_report_patient_medical" model="ir.actions.report">
+            <field name="name">Patient Medical Summary</field>
+            <field name="model">clinic.patient</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">smart_clinic.report_patient_medical</field>
+            <field name="report_file">smart_clinic.report_patient_medical</field>
+            <field name="print_report_name">'Medical Summary - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_clinic_patient"/>
+            <field name="binding_type">report</field>
+        </record>
+    </odoo>

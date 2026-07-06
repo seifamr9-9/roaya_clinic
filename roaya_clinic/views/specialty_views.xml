@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <record id="view_clinic_specialty_tree" model="ir.ui.view">
+        <field name="name">clinic.specialty.tree</field>
+        <field name="model">clinic.specialty</field>
+        <field name="arch" type="xml">
+            <tree string="Specialties">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+
+    
+    <record id="view_clinic_specialty_form" model="ir.ui.view">
+        <field name="name">clinic.specialty.form</field>
+        <field name="model">clinic.specialty</field>
+        <field name="arch" type="xml">
+
+            <form string="Specialty">
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+</odoo>

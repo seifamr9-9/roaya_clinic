@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_appointment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+
+                        <!-- Title block -->
+                        <div style="margin-bottom: 18px;">
+                            <h1 style="margin-bottom: 6px; font-size: 26px; font-weight: 700; color: #000000;">
+                                Appointment Confirmation
+                            </h1>
+                            <p style="margin-bottom: 0; font-size: 13px; font-weight: normal; color: #000000;">
+                                Please arrive 15 minutes before your scheduled time.
+                            </p>
+                        </div>
+
+                        <!-- Reference and Status, no table -->
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px;">
+                            <div>
+                                <span style="font-size: 18px; font-weight: bold; color: #000000;">Status: </span>
+                                <span style="font-size: 17px; font-weight: normal; color: #000000;"><span t-field="o.state"/></span>
+                            </div>
+                            <div>
+                                <span style="font-size: 18px; font-weight: bold; color: #000000;">Ref: </span>
+                                <span style="font-size: 17px; font-weight: normal; color: #000000;"><span t-field="o.name"/></span>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 3px solid #000000; margin-bottom: 26px;"/>
+
+                        <!-- Patient -->
+                        <h4 style="color: #000000; font-size: 19px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #000000; padding-bottom: 8px; margin-bottom: 10px;">
+                            Patient
+                        </h4>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom: 22px;">
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Name</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.patient_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Phone</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.patient_id.phone"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Doctor -->
+                        <h4 style="color: #000000; font-size: 19px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #000000; padding-bottom: 8px; margin-bottom: 10px;">
+                            Doctor
+                        </h4>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom: 22px;">
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Name</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;">Dr. <span t-field="o.doctor_id.name"/></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Specialty</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.specialty_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Appointment Details -->
+                        <h4 style="color: #000000; font-size: 19px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #000000; padding-bottom: 8px; margin-bottom: 10px;">
+                            Appointment Details
+                        </h4>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom: 22px;">
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Date</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%; padding: 6px 0 6px 10px; vertical-align: top;">
+                                    <span style="font-size: 18px; font-weight: bold; color: #000000;">Time</span>
+                                </td>
+                                <td style="padding: 6px 0 6px 10px;">
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.start_time" t-options="{'widget': 'float_time'}"/>
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;"> - </span>
+                                    <span style="font-size: 17px; font-weight: normal; color: #000000;" t-field="o.end_time" t-options="{'widget': 'float_time'}"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Reason / Notes -->
+                        <div t-if="o.reason" style="margin-top: 16px;">
+                            <h4 style="color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #000000; padding-bottom: 8px; margin-bottom: 12px;">
+                                Reason
+                            </h4>
+                            <p style="font-size: 17px; font-weight: normal; color: #000000; margin-bottom: 0;" t-field="o.reason"/>
+                        </div>
+
+                        <div t-if="o.notes" style="margin-top: 16px;">
+                            <h4 style="color: #000000; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #000000; padding-bottom: 8px; margin-bottom: 12px;">
+                                Notes
+                            </h4>
+                            <p style="font-size: 17px; font-weight: normal; color: #000000; margin-bottom: 0;" t-field="o.notes"/>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="margin-top: 40px; padding-top: 12px; border-top: 1px solid #000000;">
+                            <p style="font-size: 11px; font-weight: normal; color: #000000; margin-bottom: 0;">
+                                This is a system-generated confirmation slip and does not require a signature.
+                            </p>
+                        </div>
+
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
