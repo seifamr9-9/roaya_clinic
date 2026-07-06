@@ -164,7 +164,30 @@ class CrmLead(models.Model):
                 )
             self.patient_id = patient
 
-        # 4. Create appointment
+        # 4. Resolve appointment date/time
+        # Priority:
+        #   1) requested_appointment_datetime (set by website/API/patient request)
+        #   2) date_deadline (manually set expected closing date on the lead)
+        #   3) today (last-resort fallback)
+        appointment_date = fields.Date.today()
+        start_time = self.start_time
+        end_time = self.end_time
+
+        if self.requested_appointment_datetime:
+            # requested_appointment_datetime is stored in UTC; convert to the
+            # user's/company's timezone before extracting date & hour so the
+            # displayed date/time matches what was actually requested.
+            local_dt = fields.Datetime.context_timestamp(
+                self, self.requested_appointment_datetime
+            )
+            appointment_date = local_dt.date()
+            start_time = local_dt.hour + (local_dt.minute / 60.0)
+            if not end_time:
+                end_time = start_time + 0.5  # default 30-minute slot
+        elif self.date_deadline:
+            appointment_date = self.date_deadline
+
+        # 5. Create appointment
         appointment = (
             self.env["clinic.appointment"]
             .sudo()
@@ -175,9 +198,9 @@ class CrmLead(models.Model):
                     if self.specialty_id
                     else False,
                     "doctor_id": self.doctor_id.id if self.doctor_id else False,
-                    "date": self.date_deadline or fields.Date.today(),
-                    "start_time": self.start_time,
-                    "end_time": self.end_time,
+                    "date": appointment_date,
+                    "start_time": start_time,
+                    "end_time": end_time,
                     "notes": self.internal_notes or "",
                     "crm_lead_id": self.id,
                 }
@@ -186,7 +209,7 @@ class CrmLead(models.Model):
         appointment.action_confirm()
         self.appointment_id = appointment
 
-        # 5. Mark won + chatter
+        # 6. Mark won + chatter
         self.action_set_won()
         self.message_post(
             body=_(
@@ -208,7 +231,7 @@ class CrmLead(models.Model):
         if template:
             template.send_mail(self.id, force_send=True)
 
-        # 6. Open the appointment form
+        # 7. Open the appointment form
         return {
             "type": "ir.actions.act_window",
             "res_model": "clinic.appointment",
