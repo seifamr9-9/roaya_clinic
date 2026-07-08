@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_doctor_roster_wizard_form" model="ir.ui.view">
+        <field name="name">clinic.doctor.roster.wizard.form</field>
+        <field name="model">clinic.doctor.roster.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Doctor Daily Roster">
+                <group>
+                    <field name="doctor_id"/>
+                    <field name="date"/>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" string="Print PDF"
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_doctor_roster_wizard" model="ir.actions.act_window">
+        <field name="name">Doctor Daily Roster</field>
+        <field name="res_model">clinic.doctor.roster.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!--
+        Parent menu confirmed as smart_clinic_root (defined in views/menu.xml),
+        placed alongside the other clinic menus (doctor, patient, appointment, etc.)
+    -->
+    <menuitem id="menu_doctor_roster_wizard"
+              name="Doctor Daily Roster"
+              parent="roaya_clinic.smart_clinic_root"
+              action="action_doctor_roster_wizard"
+              sequence="20"/>
+
+</odoo>

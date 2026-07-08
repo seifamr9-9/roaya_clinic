@@ -216,10 +216,7 @@ class ClinicAppointment(models.Model):
             if rec.state != "confirmed":
                 raise ValidationError("Appointment must be confirmed first.")
             rec.state = "checked_in"
-
-    def action_start_consultation(self):
-        for rec in self:
-            rec.state = "in_progress"
+            
 
     def action_done(self):
         for rec in self:
@@ -337,4 +334,16 @@ class ClinicAppointment(models.Model):
             self.charge_ids
     )
 
-  
+    def action_start_consultation(self):
+        for rec in self:
+            paid_charges = rec.charge_ids.filtered(lambda c: c.state == "paid")
+            total_paid = sum(paid_charges.mapped("total_amount"))
+
+            if total_paid < rec.consultation_fee:
+                raise ValidationError(
+                "Cannot start the consultation before the patient pays "
+                "the consultation fee. Please create and confirm the "
+                "payment first."
+            )
+
+            rec.state = "in_progress"

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="roaya_clinic.ClinicDashboard">
+        <div class="o_clinic_dashboard p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Clinic Dashboard</h2>
+                <div class="btn-group" role="group">
+                    <button
+                        class="btn btn-outline-primary"
+                        t-att-class="state.range === 'today' ? 'active' : ''"
+                        t-on-click="() => this.onRangeChange('today')">
+                        Today
+                    </button>
+                    <button
+                        class="btn btn-outline-primary"
+                        t-att-class="state.range === 'week' ? 'active' : ''"
+                        t-on-click="() => this.onRangeChange('week')">
+                        Last Week
+                    </button>
+                    <button
+                        class="btn btn-outline-primary"
+                        t-att-class="state.range === 'month' ? 'active' : ''"
+                        t-on-click="() => this.onRangeChange('month')">
+                        Last Month
+                    </button>
+                </div>
+            </div>
+
+            <div t-if="state.loading" class="text-center p-5">
+                <i class="fa fa-spinner fa-spin fa-2x text-muted"/>
+            </div>
+
+            <t t-else="">
+                <!-- ============================================= -->
+                <!-- KPI CARDS -->
+                <!-- ============================================= -->
+                <div class="row g-3 mb-2">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_revenue o_kpi_clickable"
+                             t-on-click="onClickRevenue">
+                            <div class="o_kpi_icon"><i class="fa fa-money"/></div>
+                            <div class="text-muted small">Total Revenue</div>
+                            <div class="fs-3 fw-bold" t-esc="state.data.kpis.total_revenue"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_appointments o_kpi_clickable"
+                             t-on-click="onClickAppointments">
+                            <div class="o_kpi_icon"><i class="fa fa-calendar"/></div>
+                            <div class="text-muted small">Appointments</div>
+                            <div class="fs-3 fw-bold" t-esc="state.data.kpis.appointment_count"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_done o_kpi_clickable"
+                             t-on-click="onClickDoneRate">
+                            <div class="o_kpi_icon"><i class="fa fa-check-circle"/></div>
+                            <div class="text-muted small">Done Rate</div>
+                            <div class="fs-3 fw-bold">
+                                <t t-esc="state.data.kpis.done_rate"/>%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_noshow o_kpi_clickable"
+                             t-on-click="onClickNoShowRate">
+                            <div class="o_kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                            <div class="text-muted small">No-Show Rate</div>
+                            <div class="fs-3 fw-bold">
+                                <t t-esc="state.data.kpis.no_show_rate"/>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_patients o_kpi_clickable"
+                             t-on-click="onClickNewPatients">
+                            <div class="o_kpi_icon"><i class="fa fa-user-plus"/></div>
+                            <div class="text-muted small">New Patients</div>
+                            <div class="fs-3 fw-bold" t-esc="state.data.kpis.new_patients_count"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_leads o_kpi_clickable"
+                             t-on-click="onClickNewLeads">
+                            <div class="o_kpi_icon"><i class="fa fa-bullhorn"/></div>
+                            <div class="text-muted small">New Leads (CRM)</div>
+                            <div class="fs-3 fw-bold" t-esc="state.data.crm.new_leads_count"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_converted o_kpi_clickable"
+                             t-on-click="onClickConvertedLeads">
+                            <div class="o_kpi_icon"><i class="fa fa-handshake-o"/></div>
+                            <div class="text-muted small">Converted Leads</div>
+                            <div class="fs-3 fw-bold" t-esc="state.data.crm.converted_count"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card shadow-sm p-3 h-100 o_kpi_card o_kpi_conversion">
+                            <div class="o_kpi_icon"><i class="fa fa-line-chart"/></div>
+                            <div class="text-muted small">Conversion Rate</div>
+                            <div class="fs-3 fw-bold">
+                                <t t-esc="state.data.crm.conversion_rate"/>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <!-- ============================================= -->
+                    <!-- DOCTOR PERFORMANCE TABLE -->
+                    <!-- ============================================= -->
+                    <div class="col-lg-7">
+                        <div class="card shadow-sm p-3 h-100">
+                            <h5 class="mb-3"><i class="fa fa-user-md me-2 text-primary"/>Doctor Performance</h5>
+                            <table class="table table-hover table-sm align-middle mb-0">
+                                <thead>
+                                    <tr class="text-muted">
+                                        <th>Doctor</th>
+                                        <th class="text-end">Appointments</th>
+                                        <th class="text-end">Revenue</th>
+                                        <th class="text-end">Cancel / No-Show</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="state.data.doctor_performance" t-as="row" t-key="row.doctor"
+                                        class="o_doctor_row"
+                                        t-on-click="() => this.onClickDoctor(row.doctor_id)">
+                                        <td class="fw-semibold o_doctor_link" t-esc="row.doctor"/>
+                                        <td class="text-end" t-esc="row.appointment_count"/>
+                                        <td class="text-end" t-esc="row.revenue"/>
+                                        <td class="text-end">
+                                            <span
+                                                class="badge o_rate_badge"
+                                                t-attf-class="badge o_rate_badge {{ row.cancel_no_show_rate > 20 ? 'bg-danger' : row.cancel_no_show_rate > 0 ? 'bg-warning text-dark' : 'bg-success' }}">
+                                                <t t-esc="row.cancel_no_show_rate"/>%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="!state.data.doctor_performance.length">
+                                        <td colspan="4" class="text-center text-muted py-3">No data for this period</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ============================================= -->
+                    <!-- REVENUE BY DOCTOR (switchable chart) -->
+                    <!-- ============================================= -->
+                    <div class="col-lg-5">
+                        <div class="card shadow-sm p-3 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                <h5 class="mb-0"><i class="fa fa-bar-chart me-2 text-success"/>Revenue by Doctor</h5>
+                                <div class="btn-group btn-group-sm o_chart_type_switch" role="group">
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        t-att-class="state.chartType === 'bar' ? 'active' : ''"
+                                        title="Vertical Bar"
+                                        t-on-click="() => this.onChartTypeChange('bar')">
+                                        <i class="fa fa-bar-chart"/>
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        t-att-class="state.chartType === 'horizontalBar' ? 'active' : ''"
+                                        title="Horizontal Bar"
+                                        t-on-click="() => this.onChartTypeChange('horizontalBar')">
+                                        <i class="fa fa-tasks"/>
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        t-att-class="state.chartType === 'line' ? 'active' : ''"
+                                        title="Line"
+                                        t-on-click="() => this.onChartTypeChange('line')">
+                                        <i class="fa fa-line-chart"/>
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        t-att-class="state.chartType === 'pie' ? 'active' : ''"
+                                        title="Pie"
+                                        t-on-click="() => this.onChartTypeChange('pie')">
+                                        <i class="fa fa-pie-chart"/>
+                                    </button>
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        t-att-class="state.chartType === 'doughnut' ? 'active' : ''"
+                                        title="Doughnut"
+                                        t-on-click="() => this.onChartTypeChange('doughnut')">
+                                        <i class="fa fa-circle-o"/>
+                                    </button>
+                                </div>
+                            </div>
+                            <div t-if="!state.data.revenue_by_doctor.length" class="text-center text-muted py-3">
+                                No revenue data for this period
+                            </div>
+                            <div t-else="" class="o_revenue_chart_wrap">
+                                <canvas t-ref="revenueChart"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-1">
+                    <!-- ============================================= -->
+                    <!-- STATUS DISTRIBUTION -->
+                    <!-- ============================================= -->
+                    <div class="col-lg-12">
+                        <div class="card shadow-sm p-3">
+                            <h5 class="mb-3"><i class="fa fa-pie-chart me-2 text-info"/>Appointment Status Distribution</h5>
+                            <div class="d-flex flex-wrap gap-3">
+                                <t t-foreach="Object.entries(state.data.status_distribution)" t-as="entry" t-key="entry[0]">
+                                    <div class="o_status_chip">
+                                        <span class="o_status_dot"/>
+                                        <span class="fw-semibold" t-esc="entry[0]"/>
+                                        <span class="text-muted ms-1">(<t t-esc="entry[1]"/>)</span>
+                                    </div>
+                                </t>
+                                <div t-if="!Object.keys(state.data.status_distribution).length" class="text-muted">
+                                    No appointments in this period
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+        </div>
+    </t>
+
+</templates>

@@ -25,17 +25,18 @@
         "wizard/prescription_wizerd.xml",
         "wizard/report_wizard_views.xml",
         "wizard/lead_cancel_wizard.xml",
+        "wizard/doctor_roster_wizard.xml",
         "data/clinic_data.xml",
-        "data/ir_sequence_data.xml",
         "data/ir_sequence_data.xml",
         "data/ir_cron.xml",
         "data/mail_template_data.xml",
-        "report/appointment_report.xml", 
+        "report/appointment_report.xml",
         "report/patient_report.xml",
         "report/lab_order_report.xml",
         "views/prescription_views.xml",
         "report/charge_report.xml",
         "report/prescription_report.xml",
+        "report/doctor_roster_report.xml",
         "views/website/menu_web.xml",
         "views/website/home.xml",
         "views/website/about.xml",
@@ -44,10 +45,10 @@
         "views/website/snippets/doctors.xml",
         "views/website/pages/page_appointment.xml",
         "views/website/pages/appointment_success.xml",
-        'views/portal/dashboard.xml',
-        'views/portal/appointments.xml',
-        'views/portal/portal_appointment_details.xml',
-        'views/portal/portal_menu.xml',
+        "views/portal/dashboard.xml",
+        "views/portal/appointments.xml",
+        "views/portal/portal_appointment_details.xml",
+        "views/portal/portal_menu.xml",
         "views/appointment_views.xml",
         "views/doctor_views.xml",
         "views/schedule_views.xml",
@@ -60,16 +61,20 @@
         "views/crm_lead_views.xml",
         "views/lab_order_wizard_views.xml",
         "views/menu.xml",
-
     ],
     # only loaded in demonstration mode
     "demo": [
         "demo/demo.xml",
     ],
 
-    'assets': {
-    'web.assets_frontend': [
-        'roaya_clinic/static/src/js/portal.js',
+  "assets": {
+    "web.assets_frontend": [
+        "roaya_clinic/static/src/js/portal.js",
+    ],
+    "web.assets_backend": [
+        "roaya_clinic/static/src/dashboard/clinic_dashboard.js",
+        "roaya_clinic/static/src/dashboard/clinic_dashboard.xml",
+        "roaya_clinic/static/src/dashboard/clinic_dashboard.css",
     ],
 },
 }

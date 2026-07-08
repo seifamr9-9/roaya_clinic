@@ -1,0 +1,149 @@
+.o_clinic_dashboard {
+    background: #f8f9fb;
+    min-height: 100%;
+}
+
+.o_kpi_card {
+    position: relative;
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.o_kpi_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+}
+
+.o_kpi_icon {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 22px;
+    opacity: 0.25;
+}
+
+.o_kpi_revenue { border-left: 4px solid #2e7d32; }
+.o_kpi_revenue .o_kpi_icon { color: #2e7d32; }
+
+.o_kpi_appointments { border-left: 4px solid #1565c0; }
+.o_kpi_appointments .o_kpi_icon { color: #1565c0; }
+
+.o_kpi_done { border-left: 4px solid #2e7d32; }
+.o_kpi_done .o_kpi_icon { color: #2e7d32; }
+
+.o_kpi_noshow { border-left: 4px solid #c62828; }
+.o_kpi_noshow .o_kpi_icon { color: #c62828; }
+
+.o_kpi_patients { border-left: 4px solid #6a1b9a; }
+.o_kpi_patients .o_kpi_icon { color: #6a1b9a; }
+
+.o_kpi_leads { border-left: 4px solid #ef6c00; }
+.o_kpi_leads .o_kpi_icon { color: #ef6c00; }
+
+.o_kpi_converted { border-left: 4px solid #00838f; }
+.o_kpi_converted .o_kpi_icon { color: #00838f; }
+
+.o_kpi_conversion { border-left: 4px solid #4527a0; }
+.o_kpi_conversion .o_kpi_icon { color: #4527a0; }
+
+.o_rate_badge {
+    font-size: 0.8rem;
+    padding: 0.35em 0.6em;
+    border-radius: 8px;
+}
+
+.o_revenue_bar_bg {
+    background: #e9ecef;
+    border-radius: 6px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.o_revenue_bar_fill {
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.o_revenue_chart_wrap {
+    position: relative;
+    height: 280px;
+    width: 100%;
+}
+
+.o_status_chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+}
+
+.o_status_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1565c0;
+    display: inline-block;
+}
+
+.o_clinic_dashboard table thead th {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid #eee;
+}
+
+.o_clinic_dashboard .card {
+    border-radius: 12px;
+}
+
+/* Clickable KPI cards */
+.o_kpi_clickable {
+    cursor: pointer;
+}
+
+.o_kpi_clickable:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12) !important;
+    background: #fbfbfd;
+}
+
+.o_kpi_clickable:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Clickable doctor rows (table + revenue bars) */
+.o_doctor_row {
+    cursor: pointer;
+}
+
+.o_doctor_row:hover {
+    background-color: #f1f6ff;
+}
+
+.o_doctor_link {
+    color: #1565c0;
+}
+
+.o_doctor_row:hover .o_doctor_link {
+    text-decoration: underline;
+}
+
+/* Chart type switch buttons above the revenue chart */
+.o_chart_type_switch .btn {
+    padding: 0.25rem 0.55rem;
+}
+
+.o_chart_type_switch .btn.active {
+    background-color: #1565c0;
+    border-color: #1565c0;
+    color: #fff;
+}

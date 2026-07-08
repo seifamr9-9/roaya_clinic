@@ -94,29 +94,16 @@ class ClinicCharge(models.Model):
                 rec.amount = rec.appointment_id.consultation_fee
                 rec.state = "pending"
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "New") == "New":
-            vals["name"] = (
-                self.env["ir.sequence"].next_by_code("clinic.charge") or "New"
-            )
+    
 
-        if vals.get("appointment_id"):
-            appointment = self.env["clinic.appointment"].browse(vals["appointment_id"])
+    # def write(self, vals):
+    #     res = super().write(vals)
 
-            vals["amount"] = appointment.consultation_fee
-            vals["state"] = "pending"
+    #     for rec in self:
+    #         if rec.state == "paid" and rec.appointment_id:
+    #             rec.appointment_id.write({"state": "done"})
 
-        return super().create(vals)
-
-    def write(self, vals):
-        res = super().write(vals)
-
-        for rec in self:
-            if rec.state == "paid" and rec.appointment_id:
-                rec.appointment_id.write({"state": "done"})
-
-        return res
+    #     return res
 
     @api.model_create_multi
     def create(self, vals_list):

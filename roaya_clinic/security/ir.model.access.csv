@@ -46,3 +46,4 @@ access_clinic_schedule_manager,clinic.schedule.manager,model_clinic_schedule,roa
 access_clinic_schedule_slot_manager,clinic.schedule.slot.manager,model_clinic_schedule_slot,roaya_clinic.group_smart_clinic_manager,1,1,1,1
 access_res_users_manager,res.users.manager,base.model_res_users,roaya_clinic.group_smart_clinic_manager,1,0,0,0
 access_res_partner_manager,res.partner.manager,base.model_res_partner,roaya_clinic.group_smart_clinic_manager,1,0,0,0
+access_clinic_doctor_roster_wizard,clinic.doctor.roster.wizard,model_clinic_doctor_roster_wizard,base.group_user,1,1,1,1

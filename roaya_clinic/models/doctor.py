@@ -73,7 +73,14 @@ class ClinicDoctor(models.Model):
 
     is_published = fields.Boolean(default=True)
 
-    
-    
-    
 
+    def action_open_roster_wizard(self):    
+        self.ensure_one()
+        return {
+        "type": "ir.actions.act_window",
+        "name": "Today's Roster",
+        "res_model": "clinic.doctor.roster.wizard",
+        "view_mode": "form",
+        "target": "new",
+        "context": {"default_doctor_id": self.id},
+    }

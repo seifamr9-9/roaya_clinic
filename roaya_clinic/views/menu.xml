@@ -4,6 +4,7 @@
     <menuitem id="smart_clinic_root"
         name="Smart Clinic"
         sequence="10" />
+
     <!-- DOCTOR ACTION -->
     <record id="action_clinic_doctor" model="ir.actions.act_window">
         <field name="name">Doctors</field>
@@ -28,9 +29,11 @@
         <field name="res_model">clinic.lab_order</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <!-- ===================================================== -->
     <!-- SMART CLINIC WEBSITE - Doctor Schedule -->
     <!-- ===================================================== -->
+
     <!-- DAILY CENSUS ACTION -->
     <record id="action_daily_census_wizard" model="ir.actions.act_window">
         <field name="name">Daily Census Report</field>
@@ -38,6 +41,7 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
+
     <!-- DOCTOR SCHEDULE ACTIONS -->
     <record id="action_clinic_schedule" model="ir.actions.act_window">
         <field name="name">Doctor Schedules</field>
@@ -49,49 +53,74 @@
         <field name="res_model">clinic.schedule.slot</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <!-- SPECIALTY ACTION -->
     <record id="action_clinic_specialty" model="ir.actions.act_window">
         <field name="name">Specialties</field>
         <field name="res_model">clinic.specialty</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <!-- API TOKEN ACTION -->
     <record id="action_api_token" model="ir.actions.act_window">
         <field name="name">API Tokens</field>
         <field name="res_model">api.token</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <!-- MENUS -->
-    <menuitem id="menu_clinic_doctor"
-        name="Doctors"
+
+    <!-- DASHBOARD ACTION -->
+    <record id="action_clinic_dashboard" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">roaya_clinic.clinic_dashboard</field>
+    </record>
+
+    <!-- ===================================================== -->
+    <!-- MENUS (ordered by sequence) -->
+    <!-- ===================================================== -->
+
+    <!-- 1: Dashboard - first thing the user sees -->
+    <menuitem id="menu_clinic_dashboard"
+        name="Dashboard"
         parent="smart_clinic_root"
-        action="action_clinic_doctor"
-        sequence="2" />
-    <menuitem id="menu_clinic_patient"
-        name="Patients"
-        parent="smart_clinic_root"
-        action="action_clinic_patient"
-        sequence="3" />
+        action="action_clinic_dashboard"
+        sequence="1"/>
+
+    <!-- 2: Appointments -->
     <menuitem id="menu_clinic_appointment"
         name="Appointments"
         parent="smart_clinic_root"
         action="action_clinic_appointment"
-        sequence="1" />
-    <!-- clinic_schedule -->
-    <menuitem
-        id="menu_clinic_schedule"/>
+        sequence="2" />
+
+    <!-- 3: Doctors -->
+    <menuitem id="menu_clinic_doctor"
+        name="Doctors"
+        parent="smart_clinic_root"
+        action="action_clinic_doctor"
+        sequence="3" />
+
+    <!-- 4: Patients -->
+    <menuitem id="menu_clinic_patient"
+        name="Patients"
+        parent="smart_clinic_root"
+        action="action_clinic_patient"
+        sequence="4" />
+
+    <!-- 5: Doctor Schedules -->
     <menuitem id="menu_clinic_schedule"
         name="Doctor Schedules"
         parent="smart_clinic_root"
         action="action_clinic_schedule"
-        sequence="7" />
-    <!-- Daily Census Menu -->
+        sequence="5" />
+
+    <!-- 6: Daily Census Report -->
     <menuitem id="menu_daily_census"
         name="Daily Census Report"
         parent="smart_clinic_root"
         action="action_daily_census_wizard"
-        sequence="8" />
-    <!-- CONFIGURATION -->
+        sequence="6" />
+
+    <!-- CONFIGURATION (kept at the end) -->
     <menuitem id="menu_clinic_configuration"
         name="Configuration"
         parent="smart_clinic_root"

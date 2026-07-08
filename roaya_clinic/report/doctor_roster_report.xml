@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_doctor_roster" model="ir.actions.report">
+        <field name="name">Doctor Daily Roster</field>
+        <field name="model">clinic.doctor.roster.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">roaya_clinic.report_doctor_roster_document</field>
+        <field name="report_file">roaya_clinic.report_doctor_roster_document</field>
+        <field name="print_report_name">'Roster - %s - %s' % (object.doctor_id.name, object.date)</field>
+    </record>
+
+    <template id="report_doctor_roster_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wizard">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Daily Appointment Roster</h2>
+                        <h4>
+                            Doctor:
+                            <span t-esc="wizard.doctor_id.name"/>
+                            &#160;|&#160;
+                            Specialty:
+                            <span t-esc="wizard.doctor_id.specialty_id.name"/>
+                        </h4>
+                        <p>Date: <span t-esc="wizard.date"/></p>
+
+                        <t t-set="appointments" t-value="wizard._get_appointments()"/>
+
+                        <table class="table table-bordered" style="margin-top: 20px;">
+                            <thead>
+                                <tr style="background-color:#f2f2f2;">
+                                    <th style="width:8%;">#</th>
+                                    <th style="width:40%;">Patient Name</th>
+                                    <th style="width:20%;">Mobile</th>
+                                    <th style="width:15%;">Time</th>
+                                    <th style="width:17%;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="appointments" t-as="appt">
+                                    <td><span t-esc="appt_index + 1"/></td>
+                                    <td><span t-esc="appt.patient_id.name"/></td>
+                                    <td><span t-esc="appt.patient_id.mobile or appt.patient_id.phone"/></td>
+                                    <td>
+                                        <span t-esc="'%02d:%02d' % (int(appt.start_time), int(round((appt.start_time % 1) * 60)))"/>
+                                    </td>
+                                    <td><span t-esc="dict(appt._fields['state'].selection).get(appt.state)"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p style="margin-top: 15px;">
+                            Total patients:
+                            <span t-esc="len(appointments)"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
