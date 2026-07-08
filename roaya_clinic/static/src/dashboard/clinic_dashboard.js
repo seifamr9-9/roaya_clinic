@@ -4,6 +4,12 @@ import { Component, useState, useRef, onWillStart, useEffect } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { loadJS } from "@web/core/assets";
+import { browser } from "@web/core/browser/browser";
+
+// Key used to remember the last selected range across component
+// re-mounts (e.g. when the user opens a filtered list from a KPI
+// and then navigates back to the dashboard).
+const RANGE_STORAGE_KEY = "roaya_clinic.dashboard.range";
 
 export class ClinicDashboard extends Component {
     static template = "roaya_clinic.ClinicDashboard";
@@ -14,8 +20,16 @@ export class ClinicDashboard extends Component {
         this.chartRef = useRef("revenueChart");
         this.chart = null;
 
+        // Restore the previously selected range (if any) instead of
+        // always defaulting back to "today" after the component is
+        // re-created.
+        const storedRange = browser.sessionStorage.getItem(RANGE_STORAGE_KEY);
+        const initialRange = ["today", "week", "month"].includes(storedRange)
+            ? storedRange
+            : "today";
+
         this.state = useState({
-            range: "today",
+            range: initialRange,
             data: null,
             loading: true,
             chartType: "bar", // bar | horizontalBar | line | pie | doughnut
@@ -86,6 +100,8 @@ export class ClinicDashboard extends Component {
             return;
         }
         this.state.range = range;
+        // Persist the choice so it survives a navigate-away / navigate-back.
+        browser.sessionStorage.setItem(RANGE_STORAGE_KEY, range);
         await this.loadData();
     }
 
