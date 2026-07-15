@@ -21,7 +21,7 @@ access_clinic_specialty_doctor,clinic.specialty.doctor,model_clinic_specialty,ro
 access_clinic_lab_order_doctor,clinic.lab_order.doctor,model_clinic_lab_order,roaya_clinic.group_smart_clinic_doctor,1,1,1,0
 access_clinic_charge_doctor,clinic.charge.doctor,model_clinic_charge,roaya_clinic.group_smart_clinic_doctor,1,1,1,0
 access_clinic_prescription_doctor,clinic.prescription.doctor,model_clinic_prescription,roaya_clinic.group_smart_clinic_doctor,1,1,1,0
-access_daily_census_wizard_doctor,daily.census.wizard.doctor,model_daily_census_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
+access_daily_census_wizard_doctor,daily.census.wizard.doctor,model_daily_census_wizard,roaya_clinic.group_smart_clinic_doctor,0,0,0,0
 access_create_appointment_wizard_doctor,create.appointment.wizard.doctor,model_create_appointment_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
 access_lab_order_wizard_doctor,lab.order.wizard.doctor,model_lab_order_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
 access_clinic_prescription_wizard_doctor,clinic.prescription.wizard.doctor,model_clinic_prescription_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1

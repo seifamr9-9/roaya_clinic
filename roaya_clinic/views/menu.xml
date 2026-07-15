@@ -3,8 +3,8 @@
     <!-- ROOT MENU -->
     <menuitem id="smart_clinic_root"
         name="Smart Clinic"
+        web_icon="roaya_clinic,static/description/icon.png"
         sequence="10" />
-
     <!-- DOCTOR ACTION -->
     <record id="action_clinic_doctor" model="ir.actions.act_window">
         <field name="name">Doctors</field>
@@ -79,10 +79,14 @@
     <!-- ===================================================== -->
 
     <!-- 1: Dashboard - first thing the user sees -->
+
+
+    
     <menuitem id="menu_clinic_dashboard"
         name="Dashboard"
         parent="smart_clinic_root"
         action="action_clinic_dashboard"
+        groups="roaya_clinic.group_smart_clinic_manager"
         sequence="1"/>
 
     <!-- 2: Appointments -->

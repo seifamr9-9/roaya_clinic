@@ -20,6 +20,7 @@
     "data": [
         "security/record_rules.xml",
         "security/ir.model.access.csv",
+        "views/menu.xml",  
         "wizard/create_appointment_wizard_views.xml",
         "wizard/daily_census_wizard.xml",
         "wizard/prescription_wizerd.xml",
@@ -60,7 +61,6 @@
         "views/charge_views.xml",
         "views/crm_lead_views.xml",
         "views/lab_order_wizard_views.xml",
-        "views/menu.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
