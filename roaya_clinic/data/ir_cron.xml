@@ -34,4 +34,23 @@
         <field name="value">2</field>
     </record>
 
+    <!-- Auto-release reserved slots whose confirmation window expired [Cron] -->
+    <record id="ir_cron_release_expired_slots" model="ir.cron">
+        <field name="name">Smart Clinic: Release Expired Reserved Slots</field>
+        <field name="model_id" ref="model_clinic_schedule_slot" />
+        <field name="state">code</field>
+        <field name="code">model._cron_release_expired_slots()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+        <field name="active" eval="True" />
+    </record>
+
+    <!-- threshold is stored in Settings/Technical/System Parameters -->
+    <record id="clinic_slot_reservation_hours" model="ir.config_parameter">
+        <field name="key">clinic.slot_reservation_hours</field>
+        <field name="value">24</field>
+    </record>
+
 </odoo>

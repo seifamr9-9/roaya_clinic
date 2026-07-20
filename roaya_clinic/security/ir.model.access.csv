@@ -11,6 +11,7 @@ access_create_appointment_wizard_receptionist,create.appointment.wizard.receptio
 access_clinic_lead_reject_wizard_receptionist,clinic.lead_reject_wizard.receptionist,model_clinic_lead_reject_wizard,roaya_clinic.group_smart_clinic_receptionist,1,1,1,1
 access_clinic_schedule_receptionist,clinic.schedule.receptionist,model_clinic_schedule,roaya_clinic.group_smart_clinic_receptionist,1,1,1,1
 access_clinic_schedule_slot_receptionist,clinic.schedule.slot.receptionist,model_clinic_schedule_slot,roaya_clinic.group_smart_clinic_receptionist,1,1,1,1
+access_clinic_insurance_company_receptionist,clinic.insurance.company.receptionist,model_clinic_insurance_company,roaya_clinic.group_smart_clinic_receptionist,1,0,0,0
 access_res_users_receptionist,res.users.receptionist,base.model_res_users,roaya_clinic.group_smart_clinic_receptionist,1,0,0,0
 access_res_partner_receptionist,res.partner.receptionist,base.model_res_partner,roaya_clinic.group_smart_clinic_receptionist,1,0,0,0
 
@@ -26,6 +27,7 @@ access_create_appointment_wizard_doctor,create.appointment.wizard.doctor,model_c
 access_lab_order_wizard_doctor,lab.order.wizard.doctor,model_lab_order_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
 access_clinic_prescription_wizard_doctor,clinic.prescription.wizard.doctor,model_clinic_prescription_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
 access_clinic_lead_reject_wizard_doctor,clinic.lead_reject_wizard.doctor,model_clinic_lead_reject_wizard,roaya_clinic.group_smart_clinic_doctor,1,1,1,1
+access_clinic_insurance_company_doctor,clinic.insurance.company.doctor,model_clinic_insurance_company,roaya_clinic.group_smart_clinic_doctor,1,0,0,0
 access_res_users_doctor,res.users.doctor,base.model_res_users,roaya_clinic.group_smart_clinic_doctor,1,0,0,0
 access_res_partner_doctor,res.partner.doctor,base.model_res_partner,roaya_clinic.group_smart_clinic_doctor,1,0,0,0
 
@@ -44,6 +46,7 @@ access_clinic_prescription_wizard_manager,clinic.prescription.wizard.manager,mod
 access_clinic_lead_reject_wizard_manager,clinic.lead_reject_wizard.manager,model_clinic_lead_reject_wizard,roaya_clinic.group_smart_clinic_manager,1,1,1,1
 access_clinic_schedule_manager,clinic.schedule.manager,model_clinic_schedule,roaya_clinic.group_smart_clinic_manager,1,1,1,1
 access_clinic_schedule_slot_manager,clinic.schedule.slot.manager,model_clinic_schedule_slot,roaya_clinic.group_smart_clinic_manager,1,1,1,1
+access_clinic_insurance_company_manager,clinic.insurance.company.manager,model_clinic_insurance_company,roaya_clinic.group_smart_clinic_manager,1,1,1,1
 access_res_users_manager,res.users.manager,base.model_res_users,roaya_clinic.group_smart_clinic_manager,1,0,0,0
 access_res_partner_manager,res.partner.manager,base.model_res_partner,roaya_clinic.group_smart_clinic_manager,1,0,0,0
 access_clinic_doctor_roster_wizard,clinic.doctor.roster.wizard,model_clinic_doctor_roster_wizard,base.group_user,1,1,1,1

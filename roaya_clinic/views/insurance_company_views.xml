@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_insurance_company_tree" model="ir.ui.view">
+        <field name="name">clinic.insurance.company.tree</field>
+        <field name="model">clinic.insurance.company</field>
+        <field name="arch" type="xml">
+            <tree string="Insurance Companies">
+                <field name="name"/>
+                <field name="coverage_percent"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="patient_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_insurance_company_form" model="ir.ui.view">
+        <field name="name">clinic.insurance.company.form</field>
+        <field name="model">clinic.insurance.company</field>
+        <field name="arch" type="xml">
+            <form string="Insurance Company">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Insurance Company Name"/>
+                        </h1>
+                    </div>
+                    <group col="2">
+                        <group>
+                            <field name="coverage_percent"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="phone"/>
+                            <field name="email"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Insured Patients">
+                            <field name="patient_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="insurance_policy_number"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_insurance_company_search" model="ir.ui.view">
+        <field name="name">clinic.insurance.company.search</field>
+        <field name="model">clinic.insurance.company</field>
+        <field name="arch" type="xml">
+            <search string="Insurance Companies">
+                <field name="name"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_clinic_insurance_company" model="ir.actions.act_window">
+        <field name="name">Insurance Companies</field>
+        <field name="res_model">clinic.insurance.company</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_insurance_company_search"/>
+    </record>
+</odoo>

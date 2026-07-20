@@ -21,8 +21,11 @@
                     <div class="page">
 
                         <h2>Charge / Invoice</h2>
+                        <p class="text-muted" style="margin-top: -8px;">
+                            <span t-field="doc.name"/>
+                        </p>
 
-                        <div class="row mt-4 mb-4">
+                        <div class="row mt-4 mb-2">
                             <div class="col-6">
                                 <strong>Patient:</strong>
                                 <span t-field="doc.patient_id.name"/>
@@ -48,22 +51,73 @@
                             <thead>
                                 <tr>
                                     <th>Type</th>
-                                    <th>Amount</th>
-                                    <th>Late Fee</th>
-                                    <th>Total</th>
+                                    <th class="text-end">Amount</th>
+                                    <th class="text-end">Late Fee</th>
+                                    <th class="text-end">Total</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><span t-field="doc.line_type"/></td>
-                                    <td><span t-field="doc.amount"/></td>
-                                    <td><span t-field="doc.late_fee"/></td>
-                                    <td><span t-field="doc.total_amount"/></td>
+                                    <td class="text-end"><span t-field="doc.amount"/></td>
+                                    <td class="text-end"><span t-field="doc.late_fee"/></td>
+                                    <td class="text-end"><strong><span t-field="doc.total_amount"/></strong></td>
                                     <td><span t-field="doc.state"/></td>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <!-- ================= INSURANCE BREAKDOWN ================= -->
+                        <div t-if="doc.insurance_company_id" class="mt-4">
+                            <h4>Insurance Details</h4>
+
+                            <div class="row mb-2">
+                                <div class="col-6">
+                                    <strong>Insurance Company:</strong>
+                                    <span t-field="doc.insurance_company_id.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Coverage:</strong>
+                                    <span t-field="doc.insurance_company_id.coverage_percent"/>%
+                                </div>
+                            </div>
+
+                            <div class="row mb-2" t-if="doc.patient_id.insurance_policy_number">
+                                <div class="col-6">
+                                    <strong>Policy Number:</strong>
+                                    <span t-field="doc.patient_id.insurance_policy_number"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm table-bordered mt-2">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th>Total Charge</th>
+                                        <th class="text-end">Covered by Insurance</th>
+                                        <th class="text-end">Due from Patient</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span t-field="doc.total_amount"/></td>
+                                        <td class="text-end text-success">
+                                            <span t-field="doc.insurance_covered_amount"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <strong><span t-field="doc.patient_due_amount"/></strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- No insurance on file -->
+                        <div t-if="not doc.insurance_company_id" class="mt-4">
+                            <p class="text-muted">
+                                <em>No insurance on file for this patient. Full amount due from patient.</em>
+                            </p>
+                        </div>
 
                         <div class="row mt-4" t-if="doc.payment_date">
                             <div class="col-6">

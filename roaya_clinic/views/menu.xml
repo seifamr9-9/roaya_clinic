@@ -139,4 +139,10 @@
         parent="menu_clinic_configuration"
         action="action_api_token"
         sequence="2" />
+   <menuitem id="menu_clinic_insurance_company"
+          name="Insurance Companies"
+          action="action_clinic_insurance_company"
+          parent="menu_clinic_configuration"
+          groups="roaya_clinic.group_smart_clinic_manager"
+          sequence="3"/>
 </odoo>

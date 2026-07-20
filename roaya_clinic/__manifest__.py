@@ -61,15 +61,16 @@
         "views/charge_views.xml",
         "views/crm_lead_views.xml",
         "views/lab_order_wizard_views.xml",
+        "views/insurance_company_views.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
         "demo/demo.xml",
     ],
 
-  "assets": {
+ "assets": {
     "web.assets_frontend": [
-        "roaya_clinic/static/src/js/portal.js",
+        "roaya_clinic/static/src/js/appointment_form.js",
     ],
     "web.assets_backend": [
         "roaya_clinic/static/src/dashboard/clinic_dashboard.js",

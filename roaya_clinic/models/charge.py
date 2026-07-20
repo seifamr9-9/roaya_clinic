@@ -46,6 +46,26 @@ class ClinicCharge(models.Model):
         store=True,
     )
 
+    # ---------------- Insurance ----------------
+    insurance_company_id = fields.Many2one(
+        related="patient_id.insurance_company_id",
+        string="Insurance Company",
+        store=True,
+        readonly=True,
+    )
+
+    insurance_covered_amount = fields.Float(
+        string="Covered by Insurance",
+        compute="_compute_insurance_amounts",
+        store=True,
+    )
+
+    patient_due_amount = fields.Float(
+        string="Due from Patient",
+        compute="_compute_insurance_amounts",
+        store=True,
+    )
+
     due_date = fields.Date()
 
     payment_date = fields.Date()
@@ -86,7 +106,18 @@ class ClinicCharge(models.Model):
     def _compute_total_amount(self):
         for rec in self:
             rec.total_amount = rec.amount + rec.late_fee
-            
+
+    @api.depends("total_amount", "insurance_company_id", "insurance_company_id.coverage_percent")
+    def _compute_insurance_amounts(self):
+        for rec in self:
+            if rec.insurance_company_id:
+                covered = rec.total_amount * (rec.insurance_company_id.coverage_percent / 100.0)
+                rec.insurance_covered_amount = covered
+                rec.patient_due_amount = rec.total_amount - covered
+            else:
+                rec.insurance_covered_amount = 0.0
+                rec.patient_due_amount = rec.total_amount
+
     @api.onchange("appointment_id")
     def _onchange_appointment_id(self):
         for rec in self:

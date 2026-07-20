@@ -63,7 +63,9 @@
                                                 <select class="form-select" name="doctor_id" required="required">
                                                     <option value="">Select Doctor</option>
                                                     <t t-foreach="doctors" t-as="doctor">
-                                                        <option t-att-value="doctor.id" t-att-selected="'selected' if doctor.id == doctor_id else None">
+                                                        <option t-att-value="doctor.id"
+                                                                t-att-data-specialty-id="doctor.specialty_id.id"
+                                                                t-att-selected="'selected' if doctor.id == doctor_id else None">
                                                             <t t-esc="doctor.name"/>
                                                         </option>
                                                     </t>

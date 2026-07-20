@@ -51,8 +51,26 @@ class ClinicPatient(models.Model):
     store=True,
     )
     image_1920 = fields.Image()
-    
-    
+
+    # ---------------- Insurance ----------------
+    insurance_company_id = fields.Many2one(
+        "clinic.insurance.company",
+        string="Insurance Company",
+    )
+    insurance_policy_number = fields.Char(
+        string="Policy Number",
+    )
+    has_insurance = fields.Boolean(
+        string="Has Insurance",
+        compute="_compute_has_insurance",
+        store=True,
+    )
+
+    @api.depends("insurance_company_id")
+    def _compute_has_insurance(self):
+        for rec in self:
+            rec.has_insurance = bool(rec.insurance_company_id)
+
     appointment_ids = fields.One2many(
     'clinic.appointment',
     'patient_id',

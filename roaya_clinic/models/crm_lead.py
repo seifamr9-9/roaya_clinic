@@ -52,12 +52,40 @@ class CrmLead(models.Model):
         string="Requested Specialty",
     )
 
+    slot_id = fields.Many2one(
+        comodel_name="clinic.schedule.slot",
+        string="Reserved Slot",
+        copy=False,
+        tracking=True,
+    )
+
     requested_appointment_datetime = fields.Datetime(string="Requested Appointment")
     rejection_reason = fields.Text(string="Rejection Reason", readonly=True)
 
     internal_notes = fields.Text(string="Reception Notes")
     start_time = fields.Float(string="Start Time")
     end_time = fields.Float(string="End Time")
+
+    # Extra patient details captured from the website booking form. These
+    # aren't stored anywhere else on the lead/partner, so they must be kept
+    # here and copied onto clinic.patient when the lead is converted,
+    # otherwise they are silently lost.
+    patient_dob = fields.Date(string="Patient Date of Birth")
+    patient_gender = fields.Selection(
+        [("male", "Male"), ("female", "Female")],
+        string="Patient Gender",
+    )
+
+    is_cancelled = fields.Boolean(
+        string="Is Cancelled",
+        compute="_compute_is_cancelled",
+        store=False,
+    )
+
+    @api.depends("stage_id", "stage_id.name")
+    def _compute_is_cancelled(self):
+        for rec in self:
+            rec.is_cancelled = bool(rec.stage_id and rec.stage_id.name == "Cancelled")
 
     def action_convert_to_patient_and_appointment(self):
         self.ensure_one()
@@ -158,6 +186,10 @@ class CrmLead(models.Model):
                         {
                             "name": partner.name,
                             "email": partner.email or self.email_from,
+                            "phone": partner.phone or self.phone,
+                            "mobile": partner.mobile or self.mobile,
+                            "date_of_birth": self.patient_dob,
+                            "gender": self.patient_gender,
                             "user_id": portal_user.id,
                         }
                     )
@@ -181,9 +213,18 @@ class CrmLead(models.Model):
                 self, self.requested_appointment_datetime
             )
             appointment_date = local_dt.date()
-            start_time = local_dt.hour + (local_dt.minute / 60.0)
-            if not end_time:
-                end_time = start_time + 0.5  # default 30-minute slot
+
+            # Only derive start/end time from the requested datetime if they
+            # weren't already set directly (e.g. from the website's slot
+            # selection, stored on start_time/end_time). In many cases
+            # requested_appointment_datetime only carries date information
+            # with a midnight placeholder time, so blindly overriding a real
+            # start_time with it produces a bogus time (e.g. 3.0 instead of
+            # 10.0), which then falsely triggers the doctor overlap check.
+            if not start_time:
+                start_time = local_dt.hour + (local_dt.minute / 60.0)
+                if not end_time:
+                    end_time = start_time + 0.5  # default 30-minute slot
         elif self.date_deadline:
             appointment_date = self.date_deadline
 
@@ -198,6 +239,7 @@ class CrmLead(models.Model):
                     if self.specialty_id
                     else False,
                     "doctor_id": self.doctor_id.id if self.doctor_id else False,
+                    "slot_id": self.slot_id.id if self.slot_id else False,
                     "date": appointment_date,
                     "start_time": start_time,
                     "end_time": end_time,
@@ -207,6 +249,14 @@ class CrmLead(models.Model):
             )
         )
         appointment.action_confirm()
+
+        # The slot was only 'reserved' (pending confirmation) until now.
+        # Converting the lead is the actual confirmation, so lock it in as
+        # 'booked'. Otherwise it would just sit as 'reserved' until the
+        # auto-release cron eventually frees it up from under the patient.
+        if self.slot_id:
+            self.slot_id.confirm()
+
         self.appointment_id = appointment
 
         # 6. Mark won + chatter

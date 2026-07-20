@@ -146,6 +146,9 @@ class ClinicAppointment(models.Model):
             self.end_time = 10.0
             self.consultation_fee = self.doctor_id.consultation_fee
 
+
+   
+
     # cron methods executed on the model level not record 
     @api.model
     def _cron_send_appointment_reminders(self):
@@ -243,25 +246,22 @@ class ClinicAppointment(models.Model):
             rec.state = "no_show"
 
     def unlink(self):
-        is_manager = self.env.user.has_group("roaya_clinic.group_smart_clinic_manager")
-
         for rec in self:
-            related_records = []
-            if rec.lab_order_ids:
-                related_records.append(rec.lab_order_ids)
-            if rec.charge_ids:
-                related_records.append(rec.charge_ids)
+            if rec.state == "done":
+                raise ValidationError(
+                "You cannot delete a completed appointment. "
+                "Completed records must be kept for medical/financial history."
+            )
 
-            if related_records:
-                if not is_manager:
-                    raise ValidationError(
-                        "You cannot delete this appointment because it has "
-                        "related lab orders or charges. Please contact a manager."
-                    )
-                for related in related_records:
-                    related.unlink()
-
-        return super().unlink()
+    # Instead of physically deleting, convert to "cancelled" so the
+    # record — and any related charges/lab orders/prescriptions — stays
+    # in the system for audit and billing history.
+        self.write({"state": "cancelled"})
+        for rec in self:
+            rec.message_post(
+            body="Appointment cancelled instead of deleted (delete action intercepted)."
+        )
+        return True
 
     def action_print_prescriptions(self):
         self.ensure_one()

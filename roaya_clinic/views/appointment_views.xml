@@ -12,7 +12,7 @@
                   decoration-success="state == 'done'"
                   decoration-danger="state == 'cancelled'"
                   decoration-muted="state == 'no_show'" 
-                  default_order="name desc"
+                  default_order="date desc, start_time desc"
                   >
                 <field name="name"/>
                 <field name="patient_id"/>

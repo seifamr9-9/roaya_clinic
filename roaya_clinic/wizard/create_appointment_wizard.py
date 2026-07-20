@@ -12,11 +12,11 @@ class CreateAppointmentWizard(models.TransientModel):
     _description = "Create Appointment Wizard"
 
     slot_id = fields.Many2one(
-    "clinic.schedule.slot",
-    string="Slot",
-    required=True,
-    domain="[('id', 'in', available_slot_ids)]",
-)
+        "clinic.schedule.slot",
+        string="Slot",
+        required=True,
+        domain="[('id', 'in', available_slot_ids)]",
+    )
     patient_id = fields.Many2one(
         "clinic.patient",
         string="Patient",
@@ -55,8 +55,6 @@ class CreateAppointmentWizard(models.TransientModel):
         compute="_compute_available_slot_ids",
     )
 
-
-
     # -------------------------
     # AVAILABLE SLOTS (drives the domain shown in the view)
     # -------------------------
@@ -70,17 +68,33 @@ class CreateAppointmentWizard(models.TransientModel):
             day = WEEKDAY_MAP[rec.date.weekday()]
 
             all_slots = self.env["clinic.schedule.slot"].search([
-            ("doctor_id", "=", rec.doctor_id.id),
-            ("weekday", "=", day),
-        ])
+                ("doctor_id", "=", rec.doctor_id.id),
+                ("weekday", "=", day),
+            ])
 
-            booked = self.env["clinic.appointment"].search([
-            ("slot_id", "in", all_slots.ids),
-            ("date", "=", rec.date),
-            ("state", "!=", "cancelled"),
-            ]).mapped("slot_id").ids
+            # Check against ALL existing appointments for this doctor/date,
+            # regardless of whether they have a slot_id set (e.g. portal
+            # bookings that only carry start_time/end_time). This keeps the
+            # availability check consistent with clinic.appointment's own
+            # _check_overlap constraint, which compares actual times, not
+            # slot_id equality.
+            existing_appointments = self.env["clinic.appointment"].search([
+                ("doctor_id", "=", rec.doctor_id.id),
+                ("date", "=", rec.date),
+                ("state", "!=", "cancelled"),
+            ])
 
-            rec.available_slot_ids = all_slots.filtered(lambda s: s.id not in booked)
+            available = all_slots
+            for appt in existing_appointments:
+                if not (appt.start_time and appt.end_time):
+                    continue
+                available = available.filtered(
+                    lambda s: not (
+                        s.start_time < appt.end_time and s.end_time > appt.start_time
+                    )
+                )
+
+            rec.available_slot_ids = available
 
     @api.onchange("doctor_id")
     def _onchange_doctor_id(self):

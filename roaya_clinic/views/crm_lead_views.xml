@@ -9,17 +9,21 @@
 
             <xpath expr="//header" position="inside">
 
+                <field name="is_cancelled" invisible="1" />
+
                 <button
                     name="action_convert_to_patient_and_appointment"
                     type="object"
                     string="Convert to Appointment"
-                    class="btn-primary" />
+                    class="btn-primary"
+                    invisible="is_cancelled" />
 
                 <button
                     name="%(roaya_clinic.action_lead_reject_wizard)d"
                     string="Cancell"
                     type="action"
                     class="btn-danger"
+                    invisible="is_cancelled"
                 />
 
             </xpath>

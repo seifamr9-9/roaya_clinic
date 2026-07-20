@@ -13,3 +13,4 @@ from . import prescription
 from . import schedule
 from . import schedule_slot
 from . import clinic_dashboard
+from . import insurance_company
